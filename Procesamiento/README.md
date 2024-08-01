@@ -94,8 +94,230 @@ SELECT
 FROM
   `riesgo-relativo-1.dataset.loans_outstanding`;
 ```
-Obtuvimos que solo hay valores nulos en la tabla `user_info_default`
+Obtuvimos que solo hay valores nulos en la tabla `user_info_default` en las variables `number_dependents` y `last_month_salary`
 
 ![image](https://github.com/user-attachments/assets/610b97b4-b6f5-4e35-acbd-cb6bf220e35e)
 
+## Imputación de Valores Faltantes
+En este paso imputaremos los valores nulos de las dos variables de la tabla `user_info_default` 
 
+###  `last_month_salary`
+Dado que los 7,199 registros nulos representan más del 20% de los datos, realizaremos una imputación para manejar estos valores faltantes. La imputación se llevará a cabo utilizando el promedio de los datos correspondientes a `default_flag=1` (malos pagadores) y `default_flag=0` (buenos pagadores). Este enfoque es fundamental para el proyecto, cuyo objetivo es generar reglas precisas para identificar a los malos pagadores. Aseguraremos que los valores imputados sean coherentes con la clasificación de los usuarios.
+
+Para visualizar mejor los datos antes de realizar la imputación, cargaremos la tabla `user_info_default` en Google Colab. A continuación se muestra el código en Python para crear un boxplot de la variable `last_month_salary` para los registros con `default_flag=1`.
+
+```python
+import plotly.express as px
+
+# Filtrar los datos para default_flag = 1
+df_default_1 = df[df['default_flag'] == 1]
+
+# Filtrar los datos para default_flag = 0
+df_default_0 = df[df['default_flag'] == 0]
+
+# Crear un boxplot interactivo para last_month_salary con default_flag = 1
+fig_1 = px.box(df_default_1, y='last_month_salary', points="all", title="Boxplot de Last Month Salary (default_flag = 1)")
+
+# Mostrar el gráfico para default_flag = 1
+fig_1.show()
+
+# Crear un boxplot interactivo para last_month_salary con default_flag = 0
+fig_0 = px.box(df_default_0, y='last_month_salary', points="all", title="Boxplot de Last Month Salary (default_flag = 0)")
+
+# Mostrar el gráfico para default_flag = 0
+fig_0.show()
+```
+
+![Captura de pantalla 2024-08-01 152127](https://github.com/user-attachments/assets/0086406e-44a5-4a15-af5a-7a82d8ba5cd0)
+
+![Captura de pantalla 2024-08-01 153110](https://github.com/user-attachments/assets/c3edb960-4ee9-4a90-804e-9646740feba0)
+
+A partir de las gráficas generadas, hemos identificado la presencia de datos atípicos (outliers). Estos valores extremos pueden influir negativamente en la precisión del promedio calculado. Por ello, procederemos a excluir estos outliers para obtener un promedio más representativo y realizar una imputación más adecuada.
+
+Para los registros clasificados como buenos pagadores (default_flag = 0), excluiremos los valores iguales o superiores a 15,731. Por otro lado, para los registros clasificados como malos pagadores (default_flag = 1), excluiremos los valores iguales o superiores a 10,895.
+La consulta usaremos para calcular los promedios es la siguiente
+
+``` sql
+ SELECT
+    ROUND(AVG(CASE 
+          WHEN default_flag = 0 AND last_month_salary IS NOT NULL AND last_month_salary < 15731 THEN last_month_salary 
+          ELSE NULL 
+        END)) AS avg_salary_default_0,
+    ROUND(AVG(CASE 
+          WHEN default_flag = 1 AND last_month_salary IS NOT NULL AND last_month_salary < 10895 THEN last_month_salary 
+          ELSE NULL 
+        END)) AS avg_salary_default_1
+  FROM `riesgo-relativo-1.dataset.default` df
+  FULL JOIN `riesgo-relativo-1.dataset.user_info` user
+  ON df.user_id = user.user_id
+```
+Esta consulta nos arroja los siguientes resultados 
+
+![image](https://github.com/user-attachments/assets/d9f6e596-e739-43e4-907d-57f608193f40)
+
+
+Antes de modificar la tabla de 'user_info_default' con la imputación miraremos los nulos de la variable `number_dependents` 
+
+###  `number_dependents`
+La variable number_dependents contiene 943 valores nulos. Para abordar esta situación, utilizaremos la moda como método de imputación. Dado que ya hemos cargado la tabla con los datos en Google Colab, crearemos un código para calcular y visualizar la moda de number_dependents para los casos en que default_flag sea 0 y 1
+
+``` python
+# Primero, revisamos los valores nulos en la columna 'number_dependents'
+print(f"Valores nulos en 'number_dependents': {df['number_dependents'].isnull().sum()}")
+
+# Filtramos los datos por 'default_flag'
+df_default_0 = df[df['default_flag'] == 0]
+df_default_1 = df[df['default_flag'] == 1]
+
+# Calculamos la moda para 'number_dependents' cuando 'default_flag' es 0
+moda_default_0 = df_default_0['number_dependents'].mode().iloc[0] if not df_default_0['number_dependents'].mode().empty else None
+print(f"Moda de 'number_dependents' para default_flag=0: {moda_default_0}")
+
+# Calculamos la moda para 'number_dependents' cuando 'default_flag' es 1
+moda_default_1 = df_default_1['number_dependents'].mode().iloc[0] if not df_default_1['number_dependents'].mode().empty else None
+print(f"Moda de 'number_dependents' para default_flag=1: {moda_default_1}")
+
+# Imputamos los valores nulos con la moda correspondiente
+df['number_dependents'] = df.apply(
+    lambda row: moda_default_0 if pd.isnull(row['number_dependents']) and row['default_flag'] == 0 else 
+                (moda_default_1 if pd.isnull(row['number_dependents']) and row['default_flag'] == 1 else 
+                 row['number_dependents']),axis=1
+)
+
+# Verificamos que no queden valores nulos
+print(f"Valores nulos después de imputar: {df['number_dependents'].isnull().sum()}")
+```
+![image](https://github.com/user-attachments/assets/814b3159-44f9-4e35-b9d5-cc622520fa66)
+
+Sabiendo los valores con los que debemos imputar, modificaremos la tabla user_info_default para hacer este procedimiento con la siguiente consulta 
+
+``` sql
+---- 1. Valores con los que se va a imputar -------
+WITH valores_imputacion AS (
+  SELECT
+    ROUND(AVG(CASE 
+          WHEN df.default_flag = 0 AND user.last_month_salary IS NOT NULL AND user.last_month_salary < 15731 THEN user.last_month_salary 
+          ELSE NULL 
+        END)) AS avg_salary_default_0,
+    ROUND(AVG(CASE 
+          WHEN df.default_flag = 1 AND user.last_month_salary IS NOT NULL AND user.last_month_salary < 10895 THEN user.last_month_salary 
+          ELSE NULL 
+        END)) AS avg_salary_default_1,
+    (SELECT number_dependents
+     FROM (
+       SELECT
+         number_dependents,
+         COUNT(*) AS frequency
+       FROM `riesgo-relativo-1.dataset.user_info`
+       GROUP BY number_dependents
+       ORDER BY frequency DESC
+       LIMIT 1
+     )) AS mode_number_dependents
+  FROM `riesgo-relativo-1.dataset.user_info` user
+  LEFT JOIN `riesgo-relativo-1.dataset.default` df
+  ON user.user_id = df.user_id
+),
+------ 2. Imputar ------------
+imputacion AS (
+  SELECT
+    user.user_id,
+    user.age,
+    COALESCE(
+      CASE 
+        WHEN df.default_flag = 0 AND user.last_month_salary IS NULL THEN (SELECT avg_salary_default_0 FROM valores_imputacion)
+        WHEN df.default_flag = 1 AND user.last_month_salary IS NULL THEN (SELECT avg_salary_default_1 FROM valores_imputacion)
+        ELSE user.last_month_salary
+      END, 
+      user.last_month_salary
+    ) AS imputed_last_month_salary,
+    COALESCE(
+      CASE 
+        WHEN user.number_dependents IS NULL THEN (SELECT mode_number_dependents FROM valores_imputacion)
+        ELSE user.number_dependents
+      END, 
+      user.number_dependents
+    ) AS imputed_number_dependents,
+    df.default_flag
+  FROM `riesgo-relativo-1.dataset.user_info` user
+  LEFT JOIN `riesgo-relativo-1.dataset.default` df
+  ON user.user_id = df.user_id
+)
+--- 3. Seleccionar las variables------
+SELECT
+  user_id,
+  age,
+  imputed_last_month_salary AS last_month_salary,
+  imputed_number_dependents AS number_dependents,
+  default_flag
+FROM imputacion;
+
+```
+Con esta consulta ya tenemos los valores imputados, vamos a ver los resultados
+
+**1. Imputación de valores nulos  (Antes de imputar)**:
+![Otra vista de la imputación](https://github.com/user-attachments/assets/c711a696-c774-4004-9ead-d68e73fd1927)
+
+**2. Imputación de valores nulos  (Después de Imputar)**:
+![Imagen después de imputar](https://github.com/user-attachments/assets/3f0a357c-299b-4586-992a-3da8643b9732)
+
+**3. Comprobación consulta de valores nulos**:
+![image](https://github.com/user-attachments/assets/61f9eccb-19ce-47b0-bd59-a96fa7e10bfe)
+
+## Identificar y manejar valores duplicados
+vrificamos los duplicados de todas las tablas con las siguientes Queries :
+
+``` sql
+---Consulta para verificar duplicados en la tabla user_info_default
+SELECT
+  user_id,
+  COUNT (*) AS cantidad
+FROM
+  `riesgo-relativo-1.dataset.user_info_default`
+GROUP BY
+  user_id
+HAVING
+  COUNT (*)>1;
+
+---Consulta para verificar duplicados en la tabla loans_detail
+SELECT
+  user_id,
+  
+  COUNT (*) AS cantidad
+FROM
+  `riesgo-relativo-1.dataset.loans_detail`
+GROUP BY
+  user_id 
+HAVING
+  COUNT (*)>1;  
+
+---Consulta para verificar duplicados en la tabla loans_outstanding
+SELECT
+  user_id, 
+  COUNT (*) AS cantidad
+FROM
+  `riesgo-relativo-1.dataset.loans_outstanding`
+GROUP BY
+  user_id
+HAVING
+  COUNT (*)>1;
+```
+Hemos identificado los siguientes duplicados en la tabla `loans_outstanding`:
+
+![Duplicados en la tabla `loans_outstanding`](https://github.com/user-attachments/assets/1e7d723c-883b-47c6-8ba9-c3b49fd5e0dc)
+
+Para entender la causa de estos duplicados, hemos revisado la tabla correspondiente y analizado los datos:
+
+![Revisión de datos en la tabla](https://github.com/user-attachments/assets/7f5b4760-14fc-4f7f-bdf1-33cf25d703d4)
+
+
+Hemos identificado que el user_id se repite para cada préstamo asociado a un usuario, lo que resulta en múltiples entradas para el mismo user_id en la tabla y genera duplicados aparentes.
+
+Además, hemos detectado inconsistencias en la forma en que se registran los tipos de préstamos, con variaciones en su escritura. Esta falta de uniformidad puede causar problemas futuros. Para abordar esto, estandarizaremos los nombres de los préstamos convirtiéndolos a minúsculas. Esta estandarización nos permitirá contabilizar los préstamos de manera más precisa.
+
+Crearemos tres nuevas variables:
+
+* other_loans: Para reflejar la cantidad de préstamos que no son de bienes raíces.
+* real_estate_loans: Para mostrar la cantidad de préstamos relacionados con bienes raíces.
+* total_loans: Para mostrar la cantidad total de préstamos por usuario.
+
+Estos cambios reemplazarán la variable loan_type original y eliminarán la columna loan_id, ya que esta última no es necesaria para los procedimientos futuros. Implementaremos estas modificaciones mediante una consulta sobre la tabla original loans_outstanding.
