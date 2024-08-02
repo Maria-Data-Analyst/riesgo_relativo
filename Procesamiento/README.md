@@ -57,7 +57,7 @@ FROM `riesgo-relativo-1.dataset.user_info` AS user
 FULL JOIN `riesgo-relativo-1.dataset.default` AS df
 ON user.user_id = df.user_id
 ```
-En esta consulta SQL, realizamos una unión completa (`FULL JOIN`) entre las tablas `user_info` y `default`. Este tipo de unión garantiza que todos los registros de ambas tablas se incluyan en el resultado final, independientemente de si hay coincidencias entre ellas. 
+En esta consulta SQL, realizamos una unión completa (`FULL JOIN`) entre las tablas `user_info` y `default`. Este tipo de unión garantiza que todos los registros de ambas tablas se incluyan en el resultado final, independientemente de si hay coincidencias entre ellas. Hemos decidido excluir la variable sex de la tabla user_info, ya que no contribuye significativamente a nuestro proyecto y puede introducir un sesgo adicional en términos de género.
 
 ## Identificar y manejar los valores nulos
 Este procedimiento se realizara para las tres tablas del dataset. 
@@ -104,7 +104,7 @@ En este paso imputaremos los valores nulos de las dos variables de la tabla `use
 ###  `last_month_salary`
 Dado que los 7,199 registros nulos representan más del 20% de los datos, realizaremos una imputación para manejar estos valores faltantes. La imputación se llevará a cabo utilizando el promedio de los datos correspondientes a `default_flag=1` (malos pagadores) y `default_flag=0` (buenos pagadores). Este enfoque es fundamental para el proyecto, cuyo objetivo es generar reglas precisas para identificar a los malos pagadores. Aseguraremos que los valores imputados sean coherentes con la clasificación de los usuarios.
 
-Para visualizar mejor los datos antes de realizar la imputación, cargaremos la tabla `user_info_default` en Google Colab. A continuación se muestra el código en Python para crear un boxplot de la variable `last_month_salary` para los registros con `default_flag=1`.
+Para visualizar mejor los datos antes de realizar la imputación, cargaremos la tabla `user_info_default` en Google Colab. A continuación se muestra el código en Python para crear un boxplot de la variable `last_month_salary` para los dos posibles valores de `default_flag`.
 
 ```python
 import plotly.express as px
@@ -159,7 +159,7 @@ Esta consulta nos arroja los siguientes resultados
 Antes de modificar la tabla de 'user_info_default' con la imputación miraremos los nulos de la variable `number_dependents` 
 
 ###  `number_dependents`
-La variable number_dependents contiene 943 valores nulos. Para abordar esta situación, utilizaremos la moda como método de imputación. Dado que ya hemos cargado la tabla con los datos en Google Colab, crearemos un código para calcular y visualizar la moda de number_dependents para los casos en que default_flag sea 0 y 1
+La variable number_dependents contiene 943 valores nulos. Para abordar esta situación, utilizaremos la moda como método de imputación. Dado que ya hemos cargado la tabla con los datos en Google Colab, crearemos un código para calcular y visualizar la moda de number_dependents ademas de realizar el proceso de imputación y ver los resultados, esto para llevarnos una idea clara del procedimeinto que debemos hacer en BigQuery
 
 ``` python
 # Primero, revisamos los valores nulos en la columna 'number_dependents'
@@ -254,7 +254,7 @@ FROM imputacion;
 ```
 Con esta consulta ya tenemos los valores imputados, vamos a ver los resultados
 
-**1. Imputación de valores nulos  (Antes de imputar)**:
+**1. Antes de imputar**:
 ![Otra vista de la imputación](https://github.com/user-attachments/assets/c711a696-c774-4004-9ead-d68e73fd1927)
 
 **2. Imputación de valores nulos  (Después de Imputar)**:
@@ -386,26 +386,117 @@ En esta tabla, hemos observado una alta correlación entre las variables que rep
 
 Dado que la variable `number_times_delayed_payment_loan_30_59_days` presenta la mayor desviación estándar, la hemos seleccionado para incluirla en la tabla general, junto con las demás variables que no presentan alta correlación 
 
-# Identificar y manejar datos discrepantes en variables numéricas
-En este procedimiento, identificaremos los valores atípicos (outliers) en las variables numéricas utilizando gráficos de boxplot en Google Colab (Python). Crearemos un boxplot para cada variable numérica de las tres tablas que venimos manejando 
+# Identificación y Manejo de Datos Discrepantes en Variables Numéricas
 
-### Tabla: `loans_outstanding`
-#### `last_month_salary`
-![Captura de pantalla 2024-08-01 200914](https://github.com/user-attachments/assets/f2bdaa94-9db6-4eb2-9beb-dfd24b219bac)
+En este procedimiento, identificamos y manejamos valores atípicos en variables numéricas utilizando gráficos de boxplot en Google Colab (Python). A continuación, se detallan los resultados y acciones tomadas para cada variable.
 
-Al observar el gráfico, notamos que los valores iguales o mayores a 428,000 están significativamente alejados del resto de los datos. Para investigar más a fondo, realizaremos una consulta en BigQuery para identificar y contar a estos usuarios.
+## Tabla: `user_info_default`
+
+### `last_month_salary`
+
+![Boxplot de last_month_salary](https://github.com/user-attachments/assets/f2bdaa94-9db6-4eb2-9beb-dfd24b219bac)
 
 ![image](https://github.com/user-attachments/assets/56cca741-a841-4400-b461-9157b3de1770)
 
-Dado que identificamos únicamente 5 usuarios con estos valores extremos, decidimos eliminarlos de nuestra base de datos para mantener la calidad y consistencia de los datos.
+Se identificaron valores iguales o mayores a 428,000 que se alejan significativamente del resto. Tras realizar una consulta en BigQuery, encontramos 5 usuarios con estos valores extremos y decidimos eliminarlos para mantener la calidad de los datos.
 
-#### `age`
+### `age`
 
-![Captura de pantalla 2024-08-01 212653](https://github.com/user-attachments/assets/df2007f3-ee9a-46a9-88d4-48c34bb74a61)
-
-Al observar el gráfico, notamos que los valores  mayores a 96 están significativamente alejados del resto de los datos. Para investigar más a fondo, realizaremos una consulta en BigQuery para identificar y contar a estos usuarios.
+![Boxplot de age](https://github.com/user-attachments/assets/df2007f3-ee9a-46a9-88d4-48c34bb74a61)
 
 ![image](https://github.com/user-attachments/assets/fa26c41e-92f3-4ccb-85b8-b128ac79dbda)
-Dado que identificamos únicamente 10 usuarios con estos valores extremos, decidimos eliminarlos de nuestra base de datos para mantener la calidad y consistencia de los datos.
 
-#### `age`
+Los valores de edad mayores a 96 también se destacan como outliers. Identificamos 10 usuarios con estos valores mediante una consulta en BigQuery y los eliminamos para preservar la consistencia de los datos.
+
+Para eliminar estos datos modificaremos la ultima sentencia de la vista de la tabla `user_info` con la siguiente condición
+
+``` sql
+FROM imputacion  WHERE imputed_last_month_salary < 428000 AND age<96
+```
+## Tabla: `loans_detail`
+
+### `debt_ratio`
+
+![Boxplot de debt_ratio](https://github.com/user-attachments/assets/03ccc86b-7115-4b44-b7bc-e2b301521aaa)
+
+![image](https://github.com/user-attachments/assets/047d2ad4-4251-44b3-a5ad-9de9ade65838)
+
+Se encontraron 3 usuarios con valores extremos mayores  a 49.112 en `debt_ratio`, que fueron eliminados para mantener la integridad de los datos.
+
+### `more_90_days_overdue`
+
+![Boxplot de more_90_days_overdue](https://github.com/user-attachments/assets/7bd2aba8-9e6c-41b8-8465-6612e18a526d)
+
+![image](https://github.com/user-attachments/assets/72d470d1-65c5-4b31-95ec-82a8eb599165)
+
+Identificamos 50 usuarios con valores extremos en `more_90_days_overdue` (igual o mayor a 96), que también fueron eliminados.
+
+### `number_times_delayed_payment_loan_30_59_days`
+
+![Boxplot de number_times_delayed_payment_loan_30_59_days](https://github.com/user-attachments/assets/8d730c9f-5ccd-4633-9009-686ac017bfd4)
+
+![image](https://github.com/user-attachments/assets/c4453195-5d42-4301-9dff-4afcf22878bf)
+
+Se encontraron 50 usuarios con valores extremos (igual o mayor a 96), que coinciden con los identificados en `more_90_days_overdue`, y se eliminaron.
+
+### `using_lines_not_secured_personal_assets`
+
+![Boxplot de using_lines_not_secured_personal_assets](https://github.com/user-attachments/assets/7ddcfa12-bda2-49b7-9a36-87a689abd9fc)
+
+![image](https://github.com/user-attachments/assets/ede4a9d6-4eca-4307-b72a-43d01776eff0)
+
+Se identificaron 4 datos extremos mayores a 12.369 en `using_lines_not_secured_personal_assets`, que fueron eliminados para asegurar la calidad de los datos.
+
+
+Dado que no se han encontrado valores nulos ni duplicados en la tabla, no hemos creado una vista limpia para ella. Por lo tanto, procederemos directamente a consultar la tabla loans_detail. En esta consulta, incluiremos las siguientes variables:
+
+* user_id: Utilizaremos esta variable como clave para unir la información con la tabla general y la convertiremos en String
+* more_90_days_overdue: Esta variable es necesaria para validar una hipótesis planteada en el proyecto.
+* number_times_delayed_payment_loan_30_59_days: Incluiremos esta variable debido a su alta desviación estándar y su correlación  significativa con otras variables.
+* using_lines_not_secured_personal_assets y debt_ratio: Estas variables nos proporcionarán información sobre el nivel de endeudamiento de los usuarios.
+Además, aplicaremos sentencias para excluir los valores atípicos que hemos identificado previamente. Esta consulta se guardará como una vista llamada loans_detail_clean, que servirá como base para los análisis posteriores.
+
+``` sql
+
+SELECT
+CAST (user_id AS STRING) AS user_id,
+more_90_days_overdue,using_lines_not_secured_personal_assets,number_times_delayed_payment_loan_30_59_days,
+debt_ratio
+
+  FROM `riesgo-relativo-1.dataset.loans_detail` WHERE more_90_days_overdue <96 AND number_times_delayed_payment_loan_30_59_days < 96 AND debt_ratio < 49112 AND using_lines_not_secured_personal_assets < 12369
+```
+
+# UNIÓN: TABLA CONSOLIDADA
+En este paso, crearemos una vista llamada tabla_consolidado que integrará la información  de las tres tablas limpias desarrolladas previamente. Esta vista será nuestra base para la exploración de datos y será el lugar donde realizaremos los ajustes necesarios basados en los hallazgos del análisis.
+
+``` sql
+SELECT  
+user_default.user_id,
+user_default.age,
+user_default.last_month_salary,
+user_default.number_dependents,
+user_default.default_flag,
+loans_outstanding.real_estate_loans,
+loans_outstanding.total_loans,
+loans_detail.using_lines_not_secured_personal_assets,
+loans_detail.number_times_delayed_payment_loan_30_59_days,
+loans_detail.debt_ratio
+
+FROM `riesgo-relativo-1.dataset.loans_detail_clean` AS loans_detail
+INNER JOIN
+`riesgo-relativo-1.dataset.loans_outstanding_clean` AS loans_outstanding
+ON 
+loans_detail.user_id = loans_outstanding.user_id
+INNER JOIN
+`riesgo-relativo-1.dataset.user_info_default` AS user_default
+ON 
+user_default.user_id = loans_outstanding.user_id
+``` 
+
+
+Esta consulta utiliza ` INNER JOIN ` para asegurar que mantenemos los datos completos y consistentes. Aunque sabemos que los datos están limpios, es posible que haya diferencias en la cantidad de datos entre las tablas. Al emplear INNER JOIN, solo incluimos a los usuarios que están presentes en todas las tablas, garantizando así que nuestra vista consolidada tenga solo los registros completos y sin inconsistencias.
+
+![image](https://github.com/user-attachments/assets/fcaf8bea-496d-497f-93c1-feb0fed922dd)
+
+
+Ya podemos pasar al [Análisis Exploratorio](https://github.com/Maria-Data-Analyst/riesgo_relativo/tree/Consultas-Query/Exploracion)
