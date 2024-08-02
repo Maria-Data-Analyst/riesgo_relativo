@@ -388,7 +388,7 @@ Dado que la variable `number_times_delayed_payment_loan_30_59_days` presenta la 
 
 # Identificación y Manejo de Datos Discrepantes en Variables Numéricas
 
-En este procedimiento, identificamos y manejamos valores atípicos en variables numéricas utilizando gráficos de boxplot en Google Colab (Python). A continuación, se detallan los resultados y acciones tomadas para cada variable.
+En este procedimiento, identificamos y manejamos valores atípicos en variables numéricas mediante gráficos de boxplot en Google Colab (Python). Estos gráficos revelan cómo la presencia de datos atípicos puede dificultar la visualización de la caja, destacando principalmente los límites superiores y numerosos registros que parecen ser atípicos. Aunque estos valores atípicos no representan una gran cantidad de registros individualmente, en conjunto constituyen una parte significativa de la base de datos. Por lo tanto, en esta etapa, eliminaremos únicamente los valores que se encuentren extremadamente alejados, con el objetivo de preservar los registros relevantes y mantener la integridad de los datos.
 
 ## Tabla: `user_info_default`
 
