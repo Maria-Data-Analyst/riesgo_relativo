@@ -263,6 +263,7 @@ Con esta consulta ya tenemos los valores imputados, vamos a ver los resultados
 **3. Comprobación consulta de valores nulos**:
 ![image](https://github.com/user-attachments/assets/61f9eccb-19ce-47b0-bd59-a96fa7e10bfe)
 
+
 ## Identificar y manejar valores duplicados
 vrificamos los duplicados de todas las tablas con las siguientes Queries :
 
@@ -320,4 +321,68 @@ Crearemos tres nuevas variables:
 * real_estate_loans: Para mostrar la cantidad de préstamos relacionados con bienes raíces.
 * total_loans: Para mostrar la cantidad total de préstamos por usuario.
 
-Estos cambios reemplazarán la variable loan_type original y eliminarán la columna loan_id, ya que esta última no es necesaria para los procedimientos futuros. Implementaremos estas modificaciones mediante una consulta sobre la tabla original loans_outstanding.
+Estos cambios reemplazarán la variable loan_type original y eliminarán la columna loan_id, ya que esta última no es necesaria para los procedimientos futuros. Implementaremos estas modificaciones mediante una consulta sobre la tabla original `loans_outstanding` la cual guardaremos como una `vista` llamada `loans_outstanding_clean`
+
+```sql
+SELECT
+  CAST(user_id AS STRING) AS user_id,
+   -- Contar otros tipos de préstamos
+  SUM(CASE
+      WHEN LOWER(loan_type) = 'others' OR LOWER(loan_type) = 'other' THEN 1
+      ELSE 0
+  END
+    ) AS other_loans,
+ -- Contar préstamos inmobiliarios
+  SUM(CASE
+      WHEN LOWER(loan_type) = 'real estate' THEN 1
+      ELSE 0
+  END
+-- Contar el total de préstamos
+    ) AS real_estate_loans,
+  COUNT(*) AS total_loans
+FROM
+  `riesgo-relativo-1.dataset.loans_outstanding`
+GROUP BY
+  user_id
+ORDER BY
+  user_id;
+```
+Además, hemos modificado el tipo de dato de user_id. Originalmente estaba definido como integer, pero en nuestro contexto es más adecuado tratarlo como texto.
+Con esta modificaciones tenemos estos resultados: 
+
+![image](https://github.com/user-attachments/assets/3c78de04-8a65-48ed-b625-12a36d2da2df)
+
+Ahora, volveremos a ejecutar la consulta para los valores duplicados, ajustando la cláusula FROM para que apunte a la nueva tabla. Esto nos permitirá verificar los duplicados y asegurarnos de que los datos están correctamente actualizados.
+
+![image](https://github.com/user-attachments/assets/06e3cf84-3b3c-4365-a624-9b624bf5fe7d)
+
+
+# Selección de Variables
+
+Una alta correlación entre dos variables puede señalar multicolinealidad, lo que indica que las variables están demasiado relacionadas. Esto puede afectar la precisión del modelo de regresión y complicar su interpretación, ya que dificulta la evaluación del impacto individual de cada variable.
+
+Por esta razón, en esta etapa del procesamiento de datos, analizaremos la correlación entre las variables en cada tabla. Cargaremos las tablas en Google Colab y crearemos una matriz de correlación. Para ver el código de Python, visita el siguiente enlace:
+[Ver código de Python ](https://github.com/Maria-Data-Analyst/riesgo_relativo/tree/Consultas-Query/python)
+
+### Tabla: `loans_outstanding`
+
+![image](https://github.com/user-attachments/assets/f5a880e0-150d-409f-b338-a8bee7edc97e)
+
+En la matriz de correlación, identificamos una alta correlación entre other_loans y total_loans. Para evitar problemas de multicolinealidad, no incluiremos la variable other_loans al crear nuestra tabla general.
+
+### Tabla: `user_info`
+
+![image](https://github.com/user-attachments/assets/fdad123e-dff4-46c4-8aee-3b0ccf4eb764)
+
+En esta tabla, no hemos identificado valores relevantes que requieran exclusión. Por lo tanto, seleccionaremos todas las variables para la tabla general. Sin embargo, es necesario realizar un CAST en la variable user_id, ya que debemos manejarla como tipo texto.
+
+### Tabla: `loans_detail`
+
+![image](https://github.com/user-attachments/assets/12d3238c-94a5-4ab2-9d1b-8addf4501a62)
+
+En esta tabla, hemos observado una alta correlación entre las variables que representan la cantidad de retrasos. Para evitar la multicolinealidad, seleccionaremos una de estas variables basándonos en su desviación estándar. Optaremos por la variable con la mayor desviación estándar, ya que proporcionará una mayor variabilidad en los datos.
+
+![image](https://github.com/user-attachments/assets/78871587-fef9-41b1-bbb2-1a283cdd331e)
+
+Dado que la variable `number_times_delayed_payment_loan_30_59_days` presenta la mayor desviación estándar, la hemos seleccionado para incluirla en la tabla general, junto con las demás variables que no presentan alta correlación 
+
