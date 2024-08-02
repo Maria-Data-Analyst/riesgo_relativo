@@ -390,7 +390,7 @@ Dado que la variable `number_times_delayed_payment_loan_30_59_days` presenta la 
 En este procedimiento, identificaremos los valores atípicos (outliers) en las variables numéricas utilizando gráficos de boxplot en Google Colab (Python). Crearemos un boxplot para cada variable numérica de las tres tablas que venimos manejando 
 
 ### Tabla: `loans_outstanding`
-#### Last_month_salary
+#### `last_month_salary`
 ![Captura de pantalla 2024-08-01 200914](https://github.com/user-attachments/assets/f2bdaa94-9db6-4eb2-9beb-dfd24b219bac)
 
 Al observar el gráfico, notamos que los valores iguales o mayores a 428,000 están significativamente alejados del resto de los datos. Para investigar más a fondo, realizaremos una consulta en BigQuery para identificar y contar a estos usuarios.
@@ -398,4 +398,14 @@ Al observar el gráfico, notamos que los valores iguales o mayores a 428,000 est
 ![image](https://github.com/user-attachments/assets/56cca741-a841-4400-b461-9157b3de1770)
 
 Dado que identificamos únicamente 5 usuarios con estos valores extremos, decidimos eliminarlos de nuestra base de datos para mantener la calidad y consistencia de los datos.
-Debido a que obtuvimos solo 5 usuarios podemos quitarlos de nuestra base de datos 
+
+#### `age`
+
+![Captura de pantalla 2024-08-01 212653](https://github.com/user-attachments/assets/df2007f3-ee9a-46a9-88d4-48c34bb74a61)
+
+Al observar el gráfico, notamos que los valores  mayores a 96 están significativamente alejados del resto de los datos. Para investigar más a fondo, realizaremos una consulta en BigQuery para identificar y contar a estos usuarios.
+
+![image](https://github.com/user-attachments/assets/fa26c41e-92f3-4ccb-85b8-b128ac79dbda)
+Dado que identificamos únicamente 10 usuarios con estos valores extremos, decidimos eliminarlos de nuestra base de datos para mantener la calidad y consistencia de los datos.
+
+#### `age`
