@@ -79,9 +79,20 @@ SELECT
   ON
     user_default.user_id = loans_outstanding.user_id
 ```
-Con esta consulta, obtendremos las variables seleccionadas previamente y generaremos una variable categórica de rangos para cada una de las variables que vamos a analizar
+
+Hemos segmentado la variable more_90_days_overdue en dos categorías para poder validar más adelante la siguiente hipótesis: las personas que han retrasado sus pagos por más de 90 días tienen un mayor riesgo de ser malos pagadores. Por lo tanto, para este análisis, nos enfocamos en dos grupos: aquellos que han tenido al menos un retraso de más de 90 días y aquellos que no han tenido ningún retraso en este periodo.
+
 
 ![image](https://github.com/user-attachments/assets/c408a9c9-badb-4991-93d6-06bd90ef7509)
+
+## Medidas de tendencia central y desviación estándar
+Vamos a analizar las medias y desviaciones estándar de las variables para evaluar la segmentación de datos realizada. Este análisis nos ayudará a comprender mejor la distribución de los datos y a validar la precisión de nuestra segmentación.
+
+![image](https://github.com/user-attachments/assets/15cec071-e9de-47c0-a4ac-c808b7c5af7f)
+
+![image](https://github.com/user-attachments/assets/42b30edb-d837-4512-8fd1-2fed0a4e17ae)
+
+Observamos que la segmentación de las variables age y total_loans muestra valores de mediana y promedio cercanos entre sí, lo que indica que la segmentación ha sido adecuada. Sin embargo, para las variables last_month_salary, debt_ratio, y using_lines_not_secured_personal_assets, el último cuartil aún presenta un sesgo positivo hacia la derecha, ya que el promedio es mayor que la mediana. Esto sugiere que estos datos están influidos por valores extremos elevados en estas variables
 
 ## Asociación y visualización de variables categóricas  
 Para este paso, conectaremos la tabla_consolidada en Looker Studio, lo que nos permitirá crear tablas y gráficos necesarios para el análisis. Además, formulamos preguntas específicas para orientar nuestra exploración de datos, de modo que podamos responderlas con la información disponible.
@@ -111,7 +122,11 @@ Con el fitro de default_flag=1, la mayoría de los usuarios se encuentran en el 
 
 ### 3. ¿Qué rango de salario corresponde a los usuarios que han caído en mora con mayor frecuencia?
 
-![image](https://github.com/user-attachments/assets/644f6e43-6fc6-4a38-8768-57a468d19de1)
+![image](https://github.com/user-attachments/assets/7e8cd86f-b0b4-4877-9ee5-6bc25079bfd4)
+
 
 Con el fitro de default_flag=1 , obervamos que el rango salarial que ha acumulado más veces en mora  es el de 0 a 3.947
+
+
+
 
