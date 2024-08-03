@@ -85,15 +85,6 @@ Hemos segmentado la variable more_90_days_overdue en dos categorías para poder 
 
 ![image](https://github.com/user-attachments/assets/c408a9c9-badb-4991-93d6-06bd90ef7509)
 
-## Medidas de tendencia central y desviación estándar
-Vamos a analizar las medias y desviaciones estándar de las variables para evaluar la segmentación de datos realizada. Este análisis nos ayudará a comprender mejor la distribución de los datos y a validar la precisión de nuestra segmentación.
-
-![image](https://github.com/user-attachments/assets/15cec071-e9de-47c0-a4ac-c808b7c5af7f)
-
-![image](https://github.com/user-attachments/assets/42b30edb-d837-4512-8fd1-2fed0a4e17ae)
-
-Observamos que la segmentación de las variables age y total_loans muestra valores de mediana y promedio cercanos entre sí, lo que indica que la segmentación ha sido adecuada. Sin embargo, para las variables last_month_salary, debt_ratio, y using_lines_not_secured_personal_assets, el último cuartil aún presenta un sesgo positivo hacia la derecha, ya que el promedio es mayor que la mediana. Esto sugiere que estos datos están influidos por valores extremos elevados en estas variables
-
 ## Asociación y visualización de variables categóricas  
 Para este paso, conectaremos la tabla_consolidada en Looker Studio, lo que nos permitirá crear tablas y gráficos necesarios para el análisis. Además, formulamos preguntas específicas para orientar nuestra exploración de datos, de modo que podamos responderlas con la información disponible.
 
@@ -126,6 +117,20 @@ Con el fitro de default_flag=1, la mayoría de los usuarios se encuentran en el 
 
 
 Con el fitro de default_flag=1 , obervamos que el rango salarial que ha acumulado más veces en mora  es el de 0 a 3.947
+
+## Medidas de tendencia central y desviación estándar
+Vamos a analizar las medias y desviaciones estándar de las variables para evaluar la segmentación de datos realizada. Este análisis nos ayudará a comprender mejor la distribución de los datos y a validar la precisión de nuestra segmentación.
+
+![image](https://github.com/user-attachments/assets/15cec071-e9de-47c0-a4ac-c808b7c5af7f)
+
+![image](https://github.com/user-attachments/assets/42b30edb-d837-4512-8fd1-2fed0a4e17ae)
+
+![image](https://github.com/user-attachments/assets/3b6dc3df-4595-4aec-aca9-6ae0d43bed6c)
+
+
+Observamos que la segmentación de las variables age y total_loans muestra valores de mediana y promedio cercanos entre sí, lo que indica que la segmentación ha sido adecuada. Sin embargo, para las variables last_month_salary, debt_ratio, y using_lines_not_secured_personal_assets, el último cuartil aún presenta un sesgo positivo hacia la derecha, ya que el promedio es mayor que la mediana. Esto sugiere que estos datos están influidos por valores extremos elevados en estas variables
+
+## Medidas de tendencia central y desviación estándar
 
 
 
