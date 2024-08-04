@@ -479,7 +479,7 @@ user_default.default_flag,
 loans_outstanding.real_estate_loans,
 loans_outstanding.total_loans,
 loans_detail.using_lines_not_secured_personal_assets,
-loans_detail.number_times_delayed_payment_loan_30_59_days,
+loans_detail.more_90_days_overdue,
 loans_detail.debt_ratio
 
 FROM `riesgo-relativo-1.dataset.loans_detail_clean` AS loans_detail
