@@ -380,11 +380,11 @@ En esta tabla, no hemos identificado valores relevantes que requieran exclusión
 
 ![image](https://github.com/user-attachments/assets/12d3238c-94a5-4ab2-9d1b-8addf4501a62)
 
-En esta tabla, hemos observado una alta correlación entre las variables que representan la cantidad de retrasos. Para evitar la multicolinealidad, seleccionaremos una de estas variables basándonos en su desviación estándar. Optaremos por la variable con la mayor desviación estándar, ya que proporcionará una mayor variabilidad en los datos.
+En esta tabla, hemos observado una alta correlación entre las variables que representan la cantidad de retrasos. Para evitar la multicolinealidad, seleccionaremos una de estas variables pero antes vamos a analizar un poco la desviación estándar entre las tres. 
 
 ![image](https://github.com/user-attachments/assets/78871587-fef9-41b1-bbb2-1a283cdd331e)
 
-Dado que la variable `number_times_delayed_payment_loan_30_59_days` presenta la mayor desviación estándar, la hemos seleccionado para incluirla en la tabla general, junto con las demás variables que no presentan alta correlación 
+Dado que las variables tienen desviaciones estándar similares y considerando que en el futuro se validará una hipótesis utilizando la variable more_90_days_overdue, se ha decidido conservar esta variable en la tabla general y en los cálculos posteriores
 
 # Identificación y Manejo de Datos Discrepantes en Variables Numéricas
 
