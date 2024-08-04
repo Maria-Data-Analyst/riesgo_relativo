@@ -1,5 +1,6 @@
 # RIESGO RELATIVO
-Para calcular el riesgo relativo de buenos y malos pagadores en función de la variable default_flag, utilizaremos el siguiente codigo en Python que nos permitirá contar y visualizar la cantidad de usuarios en cada rango de las variables según el valor de default_flag (1 y 0).
+Para calcular el riesgo relativo de buenos y malos pagadores en función de la variable default_flag, utilizaremos el siguiente código en Python. Este código nos permitirá contar y visualizar los usuarios en cada rango de edad según el valor de default_flag (1 y 0) y calcular el riesgo relativo para cada segmento.
+
 ``` python 
 pd.set_option('display.max_columns', None)  # Muestra todas las columnas
 pd.set_option('display.expand_frame_repr', False)  # Evita el salto de línea en la visualización
@@ -25,3 +26,5 @@ summary['Riesgo_Relativo'] = summary['Tasa_incidencia'] / summary['Incidencia_no
 
 print(summary.reset_index())
 ```
+![image](https://github.com/user-attachments/assets/36463a57-a729-49d3-87d0-721f31deebe6)
+
