@@ -130,7 +130,48 @@ Vamos a analizar las medias y desviaciones estándar de las variables para evalu
 
 Observamos que la segmentación de las variables age y total_loans muestra valores de mediana y promedio cercanos entre sí, lo que indica que la segmentación ha sido adecuada. Sin embargo, para las variables last_month_salary, debt_ratio, y using_lines_not_secured_personal_assets, el último cuartil aún presenta un sesgo positivo hacia la derecha, ya que el promedio es mayor que la mediana. Esto sugiere que estos datos están influidos por valores extremos elevados en estas variables
 
-## Medidas de tendencia central y desviación estándar
+## BOXPLOT
+### age
+![image](https://github.com/user-attachments/assets/949b7701-f9a8-42e9-88a1-57b9cec93d80)
+
+El análisis del boxplot para la variable age muestra que la mediana en el cuartil de 43 a 62 años está desplazada hacia un extremo, lo que indica una posible asimetría en la distribución de edades dentro de ese rango. En comparación con otros cuartiles donde la mediana está centrada, esta desviación sugiere que la distribución de edades en el cuartil de 43 a 62 años podría estar sesgada, con una mayor concentración de datos en un extremo del rango. Esto puede reflejar una variabilidad diferente o una concentración de datos en ese segmento de edad.
+
+### total_loans
+
+![image](https://github.com/user-attachments/assets/4d8e7f95-80b9-4257-83f2-fbdecd9f89aa)
+
+
+Cuartil 1 a 4: En este rango, la mediana está centrada dentro de la caja, indicando una distribución relativamente simétrica. Los bigotes muestran una línea corta desde el mínimo hasta el primer cuartil, mientras que no se observa línea alguna desde el tercer cuartil hasta el máximo, lo que sugiere que los datos en el extremo superior están agrupados cerca del tercer cuartil, con poca variabilidad en ese rango.
+
+Cuartil 12 a 57: La mediana está centrada en la caja, similar al cuartil anterior, pero los bigotes muestran una línea del tercer cuartil al máximo mucho más larga en comparación con la línea del mínimo al primer cuartil. Esto indica una mayor dispersión en los valores altos dentro de este cuartil, con una cola más extendida hacia el máximo.
+
+Cuartil 9 a 11: En este rango, sólo se observa la caja sin bigotes. Esto sugiere que hay poca o ninguna variabilidad fuera del rango intercuartílico, indicando que los datos están concentrados en una gama estrecha de valores sin extremos significativos.
+
+Cuartil 58: Los bigotes están simétricos, pero la caja es muy pequeña y la línea de la mediana no es claramente visible. Esto indica que hay una distribución de datos muy compacta en torno a la mediana, con una pequeña variabilidad en los valores del cuartil.
+
+### last_month_salary
+
+![image](https://github.com/user-attachments/assets/bd5dd987-f827-4eee-8905-bb6734cd7676)
+
+Como se observó en las medidas de tendencia central, el cuartil de 7,496 a 150,000 presenta un sesgo considerable hacia la derecha, lo que dificulta la visualización de los demás boxplots. Por lo tanto, vamos a ajustar el gráfico para mejorar la visualización de los otros boxplots.
+
+![Captura de pantalla 2024-08-04 120126](https://github.com/user-attachments/assets/9e1e932f-b0b1-46d2-b4e9-33adbd31a99d)
+
+En el rango de salarios de 3498 a 5797, se observa que la mediana y el máximo coinciden. Esto podría indicar que los datos en este rango están muy concentrados cerca del valor máximo, o que la variabilidad dentro de este segmento es extremadamente baja.
+
+De 5798 a 7495: La línea de la mediana está centrada en la caja, y los bigotes están aproximadamente del mismo tamaño. Esto sugiere que la distribución de los salarios en este rango es más simétrica y homogénea, con una variabilidad más equilibrada tanto en el extremo inferior como en el superior
+
+De 0 a 3497: En este rango, la línea de la mediana está centrada dentro de la caja, lo que indica una distribución relativamente equilibrada en torno a la mediana. Sin embargo, el bigote inferior es notablemente más largo que el bigote superior. Esto sugiere que hay una mayor dispersión en los salarios bajos en comparación con los salarios más altos dentro de este rango
+
+# Correlación
+Para finalizar el análisis exploratorio, procederemos a generar una matriz de correlación en Python para examinar las relaciones entre las variables seleccionadas que tenemos en la tabla_consolidado
+
+![image](https://github.com/user-attachments/assets/874948ce-44fc-4062-9152-68ef3973fc5c)
+
+Vemos un 0.58 que indica una correlación positiva moderada. Esto significa que hay una tendencia general a que los clientes que tienen un alto número de veces vencidas más de 90 días (valor alto en more_90_days_overdue) también tienden a ser clasificados como morosos (valor de 1 en default_flag)
+
+
+[Riesgo Relativo](https://github.com/Maria-Data-Analyst/riesgo_relativo/tree/Consultas-Query/Riesgo_relativo)
 
 
 
