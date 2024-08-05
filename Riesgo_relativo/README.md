@@ -59,7 +59,9 @@ display_full_df(result_using_lines_range, "Riesgo Relativo por Rango de Using Li
 ![image](https://github.com/user-attachments/assets/932c811c-836c-4177-bb20-e049f9fbb124)
 
 
-![image](https://github.com/user-attachments/assets/fc9f814f-9a3f-4501-8d82-ca94a69a671b)
+![image](https://github.com/user-attachments/assets/9bdd737f-7a05-4162-a263-b23c589c641f)
+
+
 
 
 
