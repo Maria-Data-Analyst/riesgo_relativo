@@ -528,5 +528,4 @@ Esta consulta utiliza ` INNER JOIN ` para asegurar que mantenemos los datos comp
 
 ![image](https://github.com/user-attachments/assets/fcaf8bea-496d-497f-93c1-feb0fed922dd)
 
-
-Ya podemos pasar al [Análisis Exploratorio](https://github.com/Maria-Data-Analyst/riesgo_relativo/tree/Consultas-Query/Exploracion)
+ [Análisis Exploratorio](https://github.com/Maria-Data-Analyst/riesgo_relativo/tree/Consultas-Query/Exploracion)
