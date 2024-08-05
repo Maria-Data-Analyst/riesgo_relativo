@@ -1,34 +1,37 @@
-# riesgo_relativo
-TABLA USER_INFO_ DEFAULT
+# Proyecto Riesgo Relativo
 
-NULOS LAST_MONTH_SALARY
+## Introducción
+En el actual escenario financiero, la disminución de las tasas de interés ha generado un notable aumento en la demanda de crédito en el banco "Super Caja". Sin embargo, esta creciente demanda ha sobrecargado al equipo de análisis de crédito, que se encuentra actualmente inmerso en un proceso manual ineficiente y demorado para evaluar las numerosas solicitudes de préstamo. Frente a este desafío, se propone una solución innovadora: la automatización del proceso de análisis mediante avanzadas técnicas de análisis de datos. El objetivo principal es mejorar la eficiencia y la precisión en la evaluación del riesgo crediticio, permitiendo al banco tomar decisiones informadas sobre la concesión de crédito y reducir el riesgo de préstamos no reembolsables
 
-  DEFAULT_FLAG = 1
-  
-      *  para determinar datos atipicos en last month salary de ususarios malos pagadores tomamos este grafico y decidimos que son los datos mayores a 10.000 los outliers
-      *  Asi que sacamos el promedio solo con los datos menores a 10.000 y ese es el dato que usamos en la imputacion para los null de last_month_slary con default_flag 1
-      *  valor de inputacion : 4.169
-      
-![image](https://github.com/user-attachments/assets/26ca519c-6404-484a-810c-81717751d982)
+Para llevar a cabo el análisis , contamos con el siguiente [dataset](https://github.com/Maria-Data-Analyst/riesgo_relativo/tree/Consultas-Query/Dataset) 
 
-   DEFAULT_FLAG = 0
+### Índice
+
+A continuación, se detallan los pasos necesarios para alcanzar los objetivos propuestos en el proyecto:
+
+1. [**Procesamiento y Preparación de la Base de Datos**](https://github.com/Maria-Data-Analyst/riesgo_relativo/tree/Consultas-Query/Procesamiento)
+   - Limpieza de datos.
+   - Transformación y estructuración de la información.
    
-      *para determinar datos atipicos en last month salary de ususarios buenos pagadores tomamos este grafico y decidimos que son los datos mayores a 50.000 los outliers 
-      * Asi que sacamos el promedio solo con los datos menores a 50.000 y ese es el dato que usamos en la imputacion para los null de last_month_slary con default_flag 0
-      * valor de inputacion 6.261
-      
-![image](https://github.com/user-attachments/assets/fd3589c6-757d-46df-95ec-dedd09a79478)
+2. [**Análisis Exploratorio de Datos**](https://github.com/Maria-Data-Analyst/riesgo_relativo/tree/Consultas-Query/Exploracion)
+   - Exploración de tendencias y patrones.
+   - Identificación de variables relevantes.
+   
+3. [**Aplicación de Técnicas de Análisis**]
+   - [Riesgo relativo] (https://github.com/Maria-Data-Analyst/riesgo_relativo/tree/Consultas-Query/Riesgo_relativo)
+   - [Hito2. Score crediticio](https://github.com/Maria-Data-Analyst/riesgo_relativo/tree/Consultas-Query/Hito2)
+   - [Hito3. Regresión logística](https://github.com/Maria-Data-Analyst/riesgo_relativo/tree/Consultas-Query/Hito3)
+   
+4. [**Presentación de Resultados**](https://github.com/Maria-Data-Analyst/Proyecto-Validacion-Hipotesis/tree/main/Presentacion)
+   - Comunicación clara de hallazgos y conclusiones.
+   - Recomendaciones estratégicas basadas en los resultados obtenidos.
+   - [Dashboard](https://github.com/Maria-Data-Analyst/Proyecto-Validacion-Hipotesis/tree/main/Dashboard#readme)
+### Herramientas y Lenguajes 
+- BigQuery
+- Sql
+- Looker Studio
+- Python
+- Google Colab
 
-NULOS EN NUMBER_DEPENDENTS
-* En python vimos que la moda en esta variable tanto para default_flag =0 ó 1 la moda era 0 y por eso imputamos con ese valor a los null
-
-  ![image](https://github.com/user-attachments/assets/9b30e0cb-df47-4d1d-bb53-bdd747c85f68)
-
-
-
-
-unimos las tablas y nos damos cuenta que hay 425 nulos en la tabla prestamos vigentes que corresponden a los id de los clientes por lo tanto los vamos a quitar poque no podremos rastrearlos ni asociarlos a id de prestamos, ni con la demas informacion, para esto al unir las tablas usamos inner join y nos quedan en total 35.575 usuarios, con 7.032 nulos en last_month_salary y 910 en number dependent 
- 
-Se debe quitar la variable de genero porque agranda la brecha de genero asi que es prohibido 
 
 
