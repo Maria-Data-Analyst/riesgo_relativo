@@ -61,12 +61,12 @@ SELECT
     ELSE 'FUERA DE RANGO'
     END AS debt_ratio_range,
 
-     CASE 
-     WHEN loans_detail.using_lines_not_secured_personal_assets >= 0 AND loans_detail.using_lines_not_secured_personal_assets < 0.04 THEN '0 - 0.03'
-     WHEN loans_detail.using_lines_not_secured_personal_assets >= 0.04 AND loans_detail.using_lines_not_secured_personal_assets < 0.15 THEN '0.04 - 0.14'
-     WHEN loans_detail.using_lines_not_secured_personal_assets >= 0.15 AND loans_detail.using_lines_not_secured_personal_assets < 0.54 THEN '0.15 - 0.53'
-     WHEN loans_detail.using_lines_not_secured_personal_assets >= 0.54 AND loans_detail.using_lines_not_secured_personal_assets <= 8710 THEN ' 0.54 - 8710'
-    ELSE 'FUERA DE RANGO'
+      CASE 
+      WHEN loans_detail.using_lines_not_secured_personal_assets >= 0 AND loans_detail.using_lines_not_secured_personal_assets < 0.15 THEN '0 - 0.14'
+      WHEN loans_detail.using_lines_not_secured_personal_assets >= 0.15 AND loans_detail.using_lines_not_secured_personal_assets < 0.7 THEN '0.15 - 0.6'
+      WHEN loans_detail.using_lines_not_secured_personal_assets >= 0.7 AND loans_detail.using_lines_not_secured_personal_assets < 1 THEN '0.7 - 0.9'
+      WHEN loans_detail.using_lines_not_secured_personal_assets >= 1 AND loans_detail.using_lines_not_secured_personal_assets <= 8710 THEN '1 - 8710'
+      ELSE 'Fuera de rango'
     END AS using_lines_range,
   FROM 
     `riesgo-relativo-1.dataset.loans_detail_clean` AS loans_detail
@@ -125,7 +125,7 @@ Vamos a analizar las medias y desviaciones estándar de las variables para evalu
 
 ![image](https://github.com/user-attachments/assets/42b30edb-d837-4512-8fd1-2fed0a4e17ae)
 
-![image](https://github.com/user-attachments/assets/3b6dc3df-4595-4aec-aca9-6ae0d43bed6c)
+![image](https://github.com/user-attachments/assets/12011f6c-0ff8-4a11-9605-73bc0de8c7cc)
 
 
 Observamos que la segmentación de las variables age y total_loans muestra valores de mediana y promedio cercanos entre sí, lo que indica que la segmentación ha sido adecuada. Sin embargo, para las variables last_month_salary, debt_ratio, y using_lines_not_secured_personal_assets, el último cuartil aún presenta un sesgo positivo hacia la derecha, ya que el promedio es mayor que la mediana. Esto sugiere que estos datos están influidos por valores extremos elevados en estas variables
