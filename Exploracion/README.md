@@ -2,6 +2,9 @@
 En esta sección, realizaremos un análisis exploratorio de los datos utilizando herramientas como Google Colab, BigQuery y Looker Studio. Nuestro objetivo es obtener una visión detallada y comprensible de la información contenida en nuestra tabla tabla_consolidada.
 
 Comenzaremos visualizando histogramas para cada variable de la tabla para entender mejor la distribución de los datos. Estos histogramas nos permitirán identificar patrones, tendencias y posibles anomalías en cada variable, facilitando así una exploración más profunda de los datos
+```python
+df_consolidado.hist(figsize=(15,8),bins =30, edgecolor="yellow")
+``` 
 ![image](https://github.com/user-attachments/assets/d86611c3-5540-49e9-993c-da27b1157e91)
 
 ![image](https://github.com/user-attachments/assets/5315f946-194f-4ae7-8399-1d23db8b426f)
