@@ -128,3 +128,6 @@ El modelo ha clasificado a 14,501 usuarios como malos pagadores, mientras que `d
 ### Conclusión
 
 Para mejorar la precisión del modelo y asegurar que la clasificación de malos pagadores sea coherente con los datos de `default_flag`, es esencial realizar una investigación exhaustiva sobre las fuentes de datos y los criterios de clasificación empleados en ambas metodologías. Esta revisión permitirá identificar y corregir inconsistencias, garantizando que nuestro modelo de puntuación sea confiable y eficaz en la identificación del riesgo crediticio.
+
+
+[HITO 3](https://github.com/Maria-Data-Analyst/riesgo_relativo/blob/Consultas-Query/Hito3/README.md)
