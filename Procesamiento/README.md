@@ -361,8 +361,18 @@ Ahora, volveremos a ejecutar la consulta para los valores duplicados, ajustando 
 
 Una alta correlación entre dos variables puede señalar multicolinealidad, lo que indica que las variables están demasiado relacionadas. Esto puede afectar la precisión del modelo de regresión y complicar su interpretación, ya que dificulta la evaluación del impacto individual de cada variable.
 
-Por esta razón, en esta etapa del procesamiento de datos, analizaremos la correlación entre las variables en cada tabla. Cargaremos las tablas en Google Colab y crearemos una matriz de correlación. Para ver el código de Python, visita el siguiente enlace:
-[Ver código de Python ](https://github.com/Maria-Data-Analyst/riesgo_relativo/tree/Consultas-Query/python)
+Para abordar este problema, en esta etapa del procesamiento de datos, analizaremos la correlación entre las variables en cada tabla. Cada tabla será cargada en Google Colab como un DataFrame. Utilizaremos el siguiente código, ajustado según el DataFrame de cada tabla, para visualizar las matrices de correlación:
+
+```python
+# En este paso ya tenemos todas las librerias necesarias importadas y el DataFrame cargado
+# Calcula la matriz de correlación
+correlation_matrix = df.corr()
+# Crea el mapa de calor
+plt.figure(figsize=(8, 6))  # Ajusta el tamaño según lo necesites
+sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', fmt='.2f', vmin=-1, vmax=1)
+plt.title('Mapa de Calor de la Correlación de Pearson (Variables Numéricas)')
+plt.show()
+```
 
 ### Tabla: `loans_outstanding`
 
@@ -389,6 +399,26 @@ Dado que las variables tienen desviaciones estándar similares y considerando qu
 # Identificación y Manejo de Datos Discrepantes en Variables Numéricas
 
 En este procedimiento, identificamos y manejamos valores atípicos en variables numéricas mediante gráficos de boxplot en Google Colab (Python). Estos gráficos revelan cómo la presencia de datos atípicos puede dificultar la visualización de la caja, destacando principalmente los límites superiores y numerosos registros que parecen ser atípicos. Aunque estos valores atípicos no representan una gran cantidad de registros individualmente, en conjunto constituyen una parte significativa de la base de datos. Por lo tanto, en esta etapa, eliminaremos únicamente los valores que se encuentren extremadamente alejados, con el objetivo de preservar los registros relevantes y mantener la integridad de los datos.
+
+A continuación, se presenta el código para generar los boxplots para las variables de interés. Ajusta el nombre de la variable y del dataframe según sea necesario:
+
+``` python
+import plotly.express as px
+# Dejamos esta linea de codigo por si queremos ver más a detalle un rango de valores
+df_detail_e = df_detail[df_detail['debt_ratio'] >= 0]
+
+# Crear un boxplot interactivo usando Plotly para 'debt_ratio'
+fig = px.box(df_detail_e, y='debt_ratio', points="all", title="Boxplot debt_ratio")
+
+# Ajustar el ancho y alto del gráfico
+fig.update_layout(
+    width=800,   # Ancho en píxeles
+    height=600   # Alto en píxeles
+)
+
+# Mostrar el gráfico
+fig.show()
+```
 
 ## Tabla: `user_info_default`
 
