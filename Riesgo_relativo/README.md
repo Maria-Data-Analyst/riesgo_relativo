@@ -50,6 +50,7 @@ print(result_more90_range.reset_index())
 ![image](https://github.com/user-attachments/assets/9db0c7fa-637b-4eb7-82b5-07e81c4ec0bf)
 
 Con base en los resultados del riesgo relativo para cada variable, crearemos variables tipo bandera en la vista `tabla_consolidado`. Estas variables se marcarán con un valor de 1 para los rangos que muestren un riesgo relativo superior a 1.05, indicando una mayor probabilidad de ser clasificados como morosos según default_flag. Esto nos permitirá identificar de manera más precisa los segmentos con mayor exposición al riesgo de incumplimiento.
+
 Sentencias que se le agregaron a la tabla : 
 
 ``` sql
@@ -78,11 +79,14 @@ CASE
 ## Validar Hipótesis
 En los grupos encontrados, validar la hipótesis de cuáles tienen un riesgo relativo distinto.
 
-# 1. Los más jóvenes tienen un mayor riesgo de impago.
+### 1. Los más jóvenes tienen un mayor riesgo de impago.
 Los cálculos del riesgo relativo indican que los grupos con mayor exposición a impago se encuentran entre los 21 y 52 años, que corresponden a los dos primeros cuartiles de edad. Por lo tanto, esta hipótesis parece ser correcta, ya que los datos sugieren que los jóvenes tienen un mayor riesgo de ser clasificados como morosos.
 
-# 2. Las personas con más cantidad de préstamos activos tienen mayor riesgo de ser malos pagadores.
+### 2. Las personas con más cantidad de préstamos activos tienen mayor riesgo de ser malos pagadores.
 Esta hipótesis se rechaza, ya que el análisis del riesgo relativo muestra que los grupos con mayor exposición al riesgo de ser calificados como morosos se encuentran en el primer y segundo cuartil, los cuales tienen una cantidad de préstamos menor en comparación con los demás cuartiles. Esto sugiere que, contrariamente a lo esperado, una mayor cantidad de préstamos activos no se correlaciona con un mayor riesgo de impago.
 
-# 3. Las personas que han retrasado sus pagos por más de 90 días tienen mayor riesgo de ser malos pagadores
+### 3. Las personas que han retrasado sus pagos por más de 90 días tienen mayor riesgo de ser malos pagadores
 Observamos que el riesgo relativo para las personas que han retrasado sus pagos por más de 90 días, aunque solo haya sido una vez, es significativamente mayor en comparación con aquellos clientes que no han tenido retrasos de más de 90 días. Esto indica que incluso un único retraso prolongado en los pagos está asociado con un riesgo considerablemente mayor de ser clasificado como mal pagador.
+
+
+[Hito 2](https://github.com/Maria-Data-Analyst/riesgo_relativo/tree/Consultas-Query/Hito2)
