@@ -18,7 +18,7 @@ A continuación, se detallan los pasos necesarios para alcanzar los objetivos pr
    - Identificación de variables relevantes.
    
 3. **Aplicación de Técnicas de Análisis**
-   - [Riesgo relativo] (https://github.com/Maria-Data-Analyst/riesgo_relativo/tree/Consultas-Query/Riesgo_relativo)
+   - [Riesgo relativo](https://github.com/Maria-Data-Analyst/riesgo_relativo/tree/Consultas-Query/Riesgo_relativo)
    - [Hito2. Score crediticio](https://github.com/Maria-Data-Analyst/riesgo_relativo/tree/Consultas-Query/Hito2)
    - [Hito3. Regresión logística](https://github.com/Maria-Data-Analyst/riesgo_relativo/tree/Consultas-Query/Hito3)
    
