@@ -459,15 +459,7 @@ Se encontraron 3 usuarios con valores extremos mayores  a 49.112 en `debt_ratio`
 
 ![image](https://github.com/user-attachments/assets/72d470d1-65c5-4b31-95ec-82a8eb599165)
 
-Identificamos 50 usuarios con valores extremos en `more_90_days_overdue` (igual o mayor a 96), que también fueron eliminados.
-
-### `number_times_delayed_payment_loan_30_59_days`
-
-![Boxplot de number_times_delayed_payment_loan_30_59_days](https://github.com/user-attachments/assets/8d730c9f-5ccd-4633-9009-686ac017bfd4)
-
-![image](https://github.com/user-attachments/assets/c4453195-5d42-4301-9dff-4afcf22878bf)
-
-Se encontraron 50 usuarios con valores extremos (igual o mayor a 96), que coinciden con los identificados en `more_90_days_overdue`, y se eliminaron.
+Identificamos 63 usuarios con valores extremos en `more_90_days_overdue` (igual o mayor a 96), que también fueron eliminados.
 
 ### `using_lines_not_secured_personal_assets`
 
