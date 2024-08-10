@@ -29,7 +29,7 @@ Dado que las desviaciones estándar son similares y considerando que en el futur
 Un paso crucial es **identificar y manejar los datos atípicos**, ya que estos pueden distorsionar las métricas y llevar a resultados erróneos. Para abordar este problema, utilicé diagramas de caja interactivos para cada variable. Esta visualización me permitió analizar la distribución de los datos y detectar valores atípicos, lo que facilitó la toma de las siguientes decisiones:
 
 * **last_month_salary:** Identifiqué valores atípicos a partir de 428,000 dólares, que correspondían a 5 registros en la base de datos. Estos registros estaban clasificados como buenos pagadores, por lo que su eliminación no afectaría negativamente los análisis.
-*  ** age:**  Se detectaron valores atípicos en edades superiores a 96 años, con un total de 10 registros. Como estos registros también pertenecían a buenos pagadores, se optó por eliminarlos.
+*  **age:**  Se detectaron valores atípicos en edades superiores a 96 años, con un total de 10 registros. Como estos registros también pertenecían a buenos pagadores, se optó por eliminarlos.
 *   **debt_ratio:**  Se encontraron valores extremos iguales o superiores a 49.112 en 3 registros. Estos registros fueron eliminados para preservar la calidad y consistencia de los datos.
 *    **more_90_days_overdue:**  Identificamos valores atípicos en el rango de 96 a 98. Se encontraron 63 registros con estos valores extremos, todos clasificados como buenos pagadores. Para mantener la calidad del análisis, estos registros fueron eliminados
   
@@ -37,4 +37,65 @@ La exclusión de datos atípicos se realizó mediante sentencias en la vista de 
 
 El último paso del procesamiento consistió en unir las vistas de las tablas que habían sido modificadas y contenían datos limpios. La unión se realizó mediante un **INNER JOIN** para asegurar que solo se incluyeran los usuarios con información completa en todas las variables de las distintas tablas. Esta operación resultó en una **tabla consolidada con 35,546 usuarios, de los cuales 621 estaban clasificados como clientes morosos, representando solo el 1.75%**
 
-# Análisis Exploratorio
+# ANÁLISIS EXPLORATORIO 
+
+Comenzaremos visualizando histogramas para cada variable de la tabla para entender mejor la distribución de los datos. Estos histogramas nos permitirán identificar patrones, tendencias y posibles anomalías en cada variable, facilitando así una exploración más profunda de los datos
+
+![image](https://github.com/user-attachments/assets/851a79bd-37a0-4efe-842c-8e721f532fc6)
+
+El histograma de la edad muestra una distribución que, en general, no presenta un sesgo evidente. Sin embargo, he observado fluctuaciones en la cantidad de usuarios en distintos rangos de edad. Al analizar otros histogramas, he notado que varias variables presentan un sesgo positivo hacia la derecha, indicando la presencia de valores extremadamente altos que afectan la distribución de los datos. En el análisis previo, los boxplots demostraron cómo estos valores elevados influían en la visualización (ver el apartado de procesamiento y limpieza de datos). Dado que no fue posible eliminarlos debido a su importancia en la base de datos, he decidido segmentar las variables. Esta estrategia permitirá un análisis exploratorio más detallado y ayudará a gestionar mejor los valores elevados.
+
+Dado lo anterior, inicié la segmentación utilizando cuartiles. No obstante, para lograr una visualización y segmentación más precisa en algunas variables opté por una segmentación manual. Esto me permitió ajustar las categorías de manera más efectiva y obtener una visión más clara. Así, hemos definido los siguientes segmentos:
+
+* **age**
+  
+    * 21 - 42
+    * 43 - 52
+    * 53 - 63
+    * 64 - 95
+      
+* **last_month_salary**
+  
+    * 0 - 3947
+    * 3948 - 5797
+    * 5798 - 7495
+    * 7496 - 150000
+  
+* **total_loans**
+  
+    * 1 - 4
+    * 5 - 8
+    * 9 - 11
+    * 12 - 57
+
+* **more_90_days_overdue**
+  
+    * 0
+    * 1 - 3
+    * 4 - 6
+    * 7+
+
+* **debt_ratio**
+  
+    * 0 - 0.18
+    * 0.19 - 0.37
+    * 0.38 - 0.88
+    * 0.89 - 36705
+
+* **using_lines_not_secured_personal_assets**
+  
+    * 0 - 0.14
+    * 0.15 - 0.6
+    * 0.7 - 0.9
+    * 1 - 8710
+
+Seguimos con las medidas de tendencia central 
+
+![image](https://github.com/user-attachments/assets/34114893-29b5-4146-b960-7ce19dd3dc7c)
+
+![image](https://github.com/user-attachments/assets/7dd7f4be-5d1b-441a-8786-275880c4edac)
+
+Estas medidas nos permiten evaluar la eficacia de la segmentación. Para las variables age, total_loans y last_month_salary, la mediana y el promedio son bastante cercanos, lo que sugiere una distribución relativamente uniforme. Sin embargo, en debt_ratio y using_lines_not_secured_personal_assets, el último cuartil presenta un sesgo positivo hacia la derecha, ya que el promedio es significativamente mayor que la mediana. Esto indica que estos segmentos están afectados por valores extremos elevados, que mantienen el sesgo positivo.
+
+A pesar de este sesgo, decidí no modificar el último cuartil en estas variables debido a que debt_ratio y using_lines_not_secured_personal_assets son indicadores clave del nivel de endeudamiento. Valores superiores a 1 en estas variables ya representan una preocupación significativa en sí mismos. Por lo tanto, mantener el segmento tal como está nos ayuda a identificar y gestionar adecuadamente los casos con mayor riesgo de endeudamiento. Además, el último segmento en todas las variables muestra la mayor desviación estándar, lo que indica una mayor variación de datos respecto a la media.
+ 
