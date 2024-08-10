@@ -474,14 +474,13 @@ Identificamos 63 usuarios con valores extremos en `more_90_days_overdue` (igual 
 
 Se identificaron 4 datos extremos mayores a 12.369 en `using_lines_not_secured_personal_assets`, que fueron eliminados para asegurar la calidad de los datos.
 
+Con los valores atípicos identificados, crearemos una vista de la tabla loans_detail que incluirá solo las variables seleccionadas, excluyendo los datos atípicos detectados:
 
-Dado que no se han encontrado valores nulos ni duplicados en la tabla, no hemos creado una vista limpia para ella. Por lo tanto, procederemos directamente a consultar la tabla loans_detail. En esta consulta, incluiremos las siguientes variables:
-
-* user_id: Utilizaremos esta variable como clave para unir la información con la tabla general y la convertiremos en String
-* more_90_days_overdue: Esta variable es necesaria para validar una hipótesis planteada en el proyecto.
-* number_times_delayed_payment_loan_30_59_days: Incluiremos esta variable debido a su alta desviación estándar y su correlación  significativa con otras variables.
-* using_lines_not_secured_personal_assets y debt_ratio: Estas variables nos proporcionarán información sobre el nivel de endeudamiento de los usuarios.
-Además, aplicaremos sentencias para excluir los valores atípicos que hemos identificado previamente. Esta consulta se guardará como una vista llamada loans_detail_clean, que servirá como base para los análisis posteriores.
+* **user_id:** Utilizaremos esta variable como clave para unir la información con la tabla general, convirtiéndola en formato String.
+* **more_90_days_overdue:** Esta variable es crucial para validar una hipótesis planteada en el proyecto.
+* **using_lines_not_secured_personal_assets y debt_ratio:** Estas variables proporcionarán información sobre el nivel de endeudamiento de los usuarios.
+  
+Aplicaremos sentencias para excluir los valores atípicos previamente identificados. La consulta resultante se guardará como una vista llamada loans_detail_clean, que servirá como base para los análisis futuros.
 
 ``` sql
 
