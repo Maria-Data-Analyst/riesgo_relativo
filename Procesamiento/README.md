@@ -130,7 +130,9 @@ fig_0.show()
 
 ![Captura de pantalla 2024-08-01 152127](https://github.com/user-attachments/assets/0086406e-44a5-4a15-af5a-7a82d8ba5cd0)
 
+
 ![Captura de pantalla 2024-08-01 153110](https://github.com/user-attachments/assets/c3edb960-4ee9-4a90-804e-9646740feba0)
+
 
 A partir de las gráficas generadas, hemos identificado la presencia de datos atípicos (outliers). Estos valores extremos pueden influir negativamente en la precisión del promedio calculado. Por ello, procederemos a excluir estos outliers para obtener un promedio más representativo y realizar una imputación más adecuada.
 
@@ -255,12 +257,15 @@ FROM imputacion;
 Con esta consulta ya tenemos los valores imputados, vamos a ver los resultados
 
 **1. Antes de imputar**:
+
 ![Otra vista de la imputación](https://github.com/user-attachments/assets/c711a696-c774-4004-9ead-d68e73fd1927)
 
 **2. Imputación de valores nulos  (Después de Imputar)**:
+
 ![Imagen después de imputar](https://github.com/user-attachments/assets/3f0a357c-299b-4586-992a-3da8643b9732)
 
 **3. Comprobación consulta de valores nulos**:
+
 ![image](https://github.com/user-attachments/assets/61f9eccb-19ce-47b0-bd59-a96fa7e10bfe)
 
 
