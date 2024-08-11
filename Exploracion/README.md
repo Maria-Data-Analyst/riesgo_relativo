@@ -29,9 +29,9 @@ SELECT
 
     -- Rango de edad
     CASE
-      WHEN user_default.age >= 21 AND user_default.age <= 42 THEN '21 - 42'
-      WHEN user_default.age >= 43 AND user_default.age <= 52 THEN '43 - 52'
-      WHEN user_default.age >= 53 AND user_default.age <= 63 THEN '53 - 63'
+      WHEN user_default.age >= 21 AND user_default.age <= 35 THEN '21 - 35'
+      WHEN user_default.age >= 36 AND user_default.age <= 46 THEN '36 - 46'
+      WHEN user_default.age >= 47 AND user_default.age <= 63 THEN '47 - 63'
       WHEN user_default.age >= 64 AND user_default.age <= 95 THEN '64 - 95'
       ELSE 'Fuera de rango'
     END AS age_range,
@@ -81,87 +81,6 @@ SELECT
       ELSE 'Fuera de rango'
     END AS using_lines_range,
 
-    -- Flags para el análisis de riesgo
-    CASE
-      WHEN user_default.age >= 21 AND user_default.age <= 42 THEN 1
-      WHEN user_default.age >= 43 AND user_default.age <= 52 THEN 1
-      ELSE 0
-    END AS age_rr_flag,
-
-    CASE
-      WHEN user_default.last_month_salary >= 0 AND user_default.last_month_salary <= 3947 THEN 1
-      ELSE 0
-    END AS salary_rr_flag,
-
-    CASE
-      WHEN loans_outstanding.total_loans >= 1 AND loans_outstanding.total_loans <= 4 THEN 1
-      WHEN loans_outstanding.total_loans >= 5 AND loans_outstanding.total_loans <= 8 THEN 0
-      ELSE 0
-    END AS total_loans_rr_flag,
-
-    CASE
-      WHEN loans_detail.more_90_days_overdue = 0 THEN 0
-      ELSE 1
-    END AS more90_rr_flag,
-
-    CASE 
-     WHEN loans_detail.using_lines_not_secured_personal_assets >= 0.7 AND loans_detail.using_lines_not_secured_personal_assets < 1 THEN 1
-      WHEN loans_detail.using_lines_not_secured_personal_assets >= 1 AND loans_detail.using_lines_not_secured_personal_assets <= 8710 THEN 1
-      ELSE 0
-    END AS using_lines_rr_flag,
-
-    -- Cálculo de puntos
-    (CASE 
-     WHEN loans_detail.using_lines_not_secured_personal_assets >= 0.7 AND loans_detail.using_lines_not_secured_personal_assets < 1 THEN 1
-      WHEN loans_detail.using_lines_not_secured_personal_assets >= 1 AND loans_detail.using_lines_not_secured_personal_assets <= 8710 THEN 1
-      ELSE 0
-    END * 3 +
-    CASE
-      WHEN user_default.age >= 21 AND user_default.age <= 42 THEN 1
-      WHEN user_default.age >= 43 AND user_default.age <= 52 THEN 1
-      ELSE 0
-    END * 2 +
-    CASE
-      WHEN user_default.last_month_salary >= 0 AND user_default.last_month_salary <= 3947 THEN 1
-      ELSE 0
-    END * 3 +
-    CASE
-      WHEN loans_outstanding.total_loans >= 1 AND loans_outstanding.total_loans <= 4 THEN 1
-      WHEN loans_outstanding.total_loans >= 5 AND loans_outstanding.total_loans <= 8 THEN 0
-      ELSE 0
-    END * 2 +
-    CASE
-      WHEN loans_detail.more_90_days_overdue = 0 THEN 0
-      ELSE 1
-    END * 3) AS puntos,
-
-    -- Determinación de malos pagadores
-    CASE
-      WHEN (CASE
-              WHEN user_default.age >= 21 AND user_default.age <= 42 THEN 1
-              WHEN user_default.age >= 43 AND user_default.age <= 52 THEN 1
-              ELSE 0
-            END * 2 +
-            CASE 
-              WHEN loans_detail.using_lines_not_secured_personal_assets >= 0.7 AND loans_detail.using_lines_not_secured_personal_assets < 1 THEN 1
-      WHEN loans_detail.using_lines_not_secured_personal_assets >= 1 AND loans_detail.using_lines_not_secured_personal_assets <= 8710 THEN 1
-              ELSE 0
-            END * 3 +
-            CASE
-              WHEN user_default.last_month_salary >= 0 AND user_default.last_month_salary <= 3947 THEN 1
-              ELSE 0
-            END * 3 +
-            CASE
-              WHEN loans_outstanding.total_loans >= 1 AND loans_outstanding.total_loans <= 4 THEN 1
-              WHEN loans_outstanding.total_loans >= 5 AND loans_outstanding.total_loans <= 8 THEN 0
-              ELSE 0
-            END * 2 +
-            CASE
-              WHEN loans_detail.more_90_days_overdue = 0 THEN 0
-              ELSE 1
-            END * 3) >= 3 THEN 1
-      ELSE 0
-    END AS malos_pagadores
 
 FROM 
     `riesgo-relativo-1.dataset.loans_detail_clean` AS loans_detail
@@ -174,13 +93,18 @@ INNER JOIN
 ON
     user_default.user_id = loans_outstanding.user_id;
 ```
+## Medidas de tendencia central y desviación estándar
+Vamos a analizar las medias y desviaciones estándar de las variables para evaluar la segmentación de datos realizada. Este análisis nos ayudará a comprender mejor la distribución de los datos y a validar la precisión de nuestra segmentación.
+
+![Captura de pantalla 2024-08-11 162234](https://github.com/user-attachments/assets/81e440c3-cfb7-4916-83f1-23aa6e145bb1)
+
+
+![Captura de pantalla 2024-08-11 161949](https://github.com/user-attachments/assets/01437b58-0552-4346-a56f-71a59ddb4179)
 
 
 
-![image](https://github.com/user-attachments/assets/c408a9c9-badb-4991-93d6-06bd90ef7509)
-
-
-
+Observamos que la segmentación de las variables more_90_days, last_month_salary, age y total_loans muestra valores de mediana y promedio cercanos entre sí, lo que indica que la segmentación ha sido adecuada. Sin embargo, para las variables , debt_ratio, y using_lines_not_secured_personal_assets, el último cuartil aún presenta un sesgo positivo hacia la derecha, ya que el promedio es mayor que la mediana. Esto sugiere que estos datos están influidos por valores extremos elevados en estas variables. Tambien podemos observar que la mayoria de los datos de la variable more_90_days  estan en el segmento de 0 veces, ese segmento constitute el 95% de la base de datos.
+La mayor desviación estándar en el último cuartil indica que los valores en este segmento son mucho más variados. Esto podría ser el resultado de la presencia de valores atípicos o extremos que están influyendo significativamente en la variabilidad de los datos
 
 ## Asociación y visualización de variables categóricas  
 Para este paso, conectaremos la tabla_consolidada en Looker Studio, lo que nos permitirá crear tablas y gráficos necesarios para el análisis. Además, formulamos preguntas específicas para orientar nuestra exploración de datos, de modo que podamos responderlas con la información disponible.
@@ -189,16 +113,11 @@ Para responder a las siguientes preguntas, hemos aplicado un filtro a la variabl
 
 ### 1.¿Cuál es el rango de edad predominante entre los usuarios, y cuáles son los grupos etarios que solicitan más préstamos?
 
-![image](https://github.com/user-attachments/assets/b58f54df-26e0-42e4-a123-8aa28b1615de)
+
+![image](https://github.com/user-attachments/assets/2672bdb7-6ade-4ea4-b34a-9b300ab81c90)
 
 
-Podemos observar que el rango etario con la mayor cantidad de usuarios es el de 21 a 42 años, mientras que el rango con la mayor cantidad de préstamos es el de 53 a 63 años. Sin embargo, al aplicar el filtro para visualizar los usuarios catalogados como morosos, encontramos lo siguiente:
-
-![image](https://github.com/user-attachments/assets/7c7a0910-2ebb-4449-b5f1-722ba03dcdc9)
-
-
-El rango etario con la mayor cantidad de clientes catalogados como morosos es también el de 21 a 42 años. Este es el mismo rango que tiene el mayor número de préstamos.
-
+El gráfico está filtrado para mostrar únicamente a los clientes catalogados como morosos. En él, el rango etario con la mayor cantidad de usuarios es el de 47 a 63 años, y también es el grupo con el mayor número de préstamos. Este gráfico sugiere, como primer indicio, que la hipótesis de que los más jóvenes tienen un mayor riesgo de impago podría ser incorrecta, ya que el número de usuarios en el rango de edad más joven es menor. Sin embargo, esta observación no proporciona una base sólida, ya que es necesario comparar la cantidad de clientes en cada segmento. Este análisis más detallado se realizará mediante el cálculo del riesgo relativo en etapas posteriores.
 
 ### 2. ¿En qué rango de salario se encuentran los usuarios con mayor cantidad de préstamos?
 
@@ -215,19 +134,6 @@ Con el fitro de default_flag=1, la mayoría de los usuarios se encuentran en el 
 
 Con el fitro de default_flag=1 , obervamos que el rango salarial que ha acumulado más veces en mora  es el de 0 a 3.947
 
-## Medidas de tendencia central y desviación estándar
-Vamos a analizar las medias y desviaciones estándar de las variables para evaluar la segmentación de datos realizada. Este análisis nos ayudará a comprender mejor la distribución de los datos y a validar la precisión de nuestra segmentación.
-
-![image](https://github.com/user-attachments/assets/15cec071-e9de-47c0-a4ac-c808b7c5af7f)
-
-![image](https://github.com/user-attachments/assets/42b30edb-d837-4512-8fd1-2fed0a4e17ae)
-
-![image](https://github.com/user-attachments/assets/12011f6c-0ff8-4a11-9605-73bc0de8c7cc)
-
-![image](https://github.com/user-attachments/assets/58e8df7c-ccec-48d1-a739-c32810cd8cda)
-
-Observamos que la segmentación de las variables more_90_days, last_month_salary, age y total_loans muestra valores de mediana y promedio cercanos entre sí, lo que indica que la segmentación ha sido adecuada. Sin embargo, para las variables , debt_ratio, y using_lines_not_secured_personal_assets, el último cuartil aún presenta un sesgo positivo hacia la derecha, ya que el promedio es mayor que la mediana. Esto sugiere que estos datos están influidos por valores extremos elevados en estas variables. Tambien podemos observar que la mayoria de los datos de la variable more_90_days  estan en el segmento de 0 veces, ese segmento constitute el 95% de la base de datos.
-La mayor desviación estándar en el último cuartil indica que los valores en este segmento son mucho más variados. Esto podría ser el resultado de la presencia de valores atípicos o extremos que están influyendo significativamente en la variabilidad de los datos
 
 ## BOXPLOT
 ### age
