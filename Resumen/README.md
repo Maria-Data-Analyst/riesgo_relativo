@@ -93,9 +93,61 @@ Seguimos con las medidas de tendencia central
 
 ![image](https://github.com/user-attachments/assets/34114893-29b5-4146-b960-7ce19dd3dc7c)
 
-![image](https://github.com/user-attachments/assets/7dd7f4be-5d1b-441a-8786-275880c4edac)
+![image](https://github.com/user-attachments/assets/769886fc-dc32-4ffe-a657-cf371dd1d7f8)
+
 
 Estas medidas nos permiten evaluar la eficacia de la segmentación. Para las variables age, total_loans y last_month_salary, la mediana y el promedio son bastante cercanos, lo que sugiere una distribución relativamente uniforme. Sin embargo, en debt_ratio y using_lines_not_secured_personal_assets, el último cuartil presenta un sesgo positivo hacia la derecha, ya que el promedio es significativamente mayor que la mediana. Esto indica que estos segmentos están afectados por valores extremos elevados, que mantienen el sesgo positivo.
 
-A pesar de este sesgo, decidí no modificar el último cuartil en estas variables debido a que debt_ratio y using_lines_not_secured_personal_assets son indicadores clave del nivel de endeudamiento. Valores superiores a 1 en estas variables ya representan una preocupación significativa en sí mismos. Por lo tanto, mantener el segmento tal como está nos ayuda a identificar y gestionar adecuadamente los casos con mayor riesgo de endeudamiento. Además, el último segmento en todas las variables muestra la mayor desviación estándar, lo que indica una mayor variación de datos respecto a la media.
- 
+A pesar de este sesgo, decidí no modificar el último cuartil en estas variables debido a que debt_ratio y using_lines_not_secured_personal_assets son indicadores clave del nivel de endeudamiento. Valores superiores a 0.8 en estas variables ya representan una preocupación significativa en sí mismos. Por lo tanto, mantener el segmento tal como está nos ayuda a identificar y gestionar adecuadamente los casos con mayor riesgo de endeudamiento. 
+
+La mayor desviación estándar en el último cuartil de todas las variables indica que los valores en este segmento son mucho más variados. Esto podría ser el resultado de la presencia de valores atípicos o extremos que están influyendo significativamente en la variabilidad de los datos.
+
+Para **explorar las variables categóricas**, decidí plantear preguntas específicas y analizar cómo responden los datos a estas interrogantes. Además, voy a graficar las hipótesis planteadas en el proyecto para obtener una primera visión de su validez
+
+### 1.¿Cuál es el rango de edad predominante entre los usuarios, y cuáles son los grupos etarios que solicitan más préstamos?
+
+![image](https://github.com/user-attachments/assets/b58f54df-26e0-42e4-a123-8aa28b1615de)
+
+
+Podemos observar que el rango etario con la mayor cantidad de usuarios es el de 21 a 42 años, mientras que el rango con la mayor cantidad de préstamos es el de 53 a 63 años. Sin embargo, al aplicar el filtro para visualizar los usuarios catalogados como morosos, encontramos lo siguiente:
+
+![image](https://github.com/user-attachments/assets/7c7a0910-2ebb-4449-b5f1-722ba03dcdc9)
+
+
+El rango etario con la mayor cantidad de clientes catalogados como morosos es también el de 21 a 42 años. Este es el mismo rango que tiene el mayor número de préstamos.
+
+
+### 2. ¿En qué rango de salario se encuentran los usuarios con mayor cantidad de préstamos?
+
+![image](https://github.com/user-attachments/assets/dd333599-8560-4b4e-8f89-2298b55a712a)
+
+Con el fitro de default_flag=1, la mayoría de los usuarios se encuentran en el rango de salario de 0 a 3.947 dólares, que es el segundo rango con la mayor cantidad de préstamos, solo superado por el rango de 3.498 a 5.797 dólares.
+
+
+
+### 3. ¿Qué rango de salario corresponde a los usuarios que han caído en mora con mayor frecuencia?
+
+![image](https://github.com/user-attachments/assets/7e8cd86f-b0b4-4877-9ee5-6bc25079bfd4)
+
+
+Con el fitro de default_flag=1 , obervamos que el rango salarial que ha acumulado más veces en mora  es el de 0 a 3.947
+
+### 4. ¿ Las personas con más cantidad de préstamos activos tienen mayor riesgo de ser malos pagadores ?
+
+![image](https://github.com/user-attachments/assets/0c544384-91ab-494f-b4c7-b5c706518a45)
+
+Vemos que los clientes morosos tienen los porcentajes más altos en los rangos de 1 a 8 préstamos. Esto sugiere, a primera vista, que la hipótesis podría ser incorrecta, ya que los usuarios con un mayor número de préstamos no son los más propensos a ser clasificados como morosos.
+
+### 5 ¿Las personas que han retrasado sus pagos por más de 90 días tienen mayor riesgo de ser malos pagadores?
+
+![image](https://github.com/user-attachments/assets/3edc292a-078b-410f-b1ab-646ccf18658a)
+
+Aquí podemos observar que el 72% de los usuarios catalogados como morosos ha tenido entre 1 y 4 atrasos de más de 90 días. Este resultado apoya la hipótesis propuesta
+
+Estas preguntas nos proporcionan una idea más clara sobre el perfil y el comportamiento de los usuarios. Sin embargo, esta exploración por sí sola no es suficiente para validar o refutar las hipótesis. Por lo tanto, continuaremos utilizando técnicas de análisis más avanzadas para obtener fundamentos sólidos en la validación de las hipótesis planteadas y para desarrollar un proceso automatizado de análisis de clientes que permita identificar eficazmente a los buenos y malos pagadores.
+
+# TÉCNICA DE ANÁLISIS: RIESGO RELATIVO
+
+El riesgo relativo en segmentos de variables específicas me permitió comparar la probabilidad de que un cliente fuera un mal pagador en cada segmento. Esto me ayudó a identificar qué segmentos tenían mayor riesgo en comparación con otros.
+
+Calcule el riesgo relativo para todas las variables que segmenté en el análisis exploratorio. Esto me permitió ver qué segmentos estaban más expuestos a ser catalogados como malos pagadores. Además, estos resultados me proporcionaron la base para validar o refutar las hipótesis planteadas y para definir el perfil de los clientes con mayor riesgo de morosidad.
