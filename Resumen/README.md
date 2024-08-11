@@ -45,55 +45,16 @@ Comenzaremos visualizando histogramas para cada variable de la tabla para entend
 
 El histograma de la edad muestra una distribución que, en general, no presenta un sesgo evidente. Sin embargo, he observado fluctuaciones en la cantidad de usuarios en distintos rangos de edad. Al analizar otros histogramas, he notado que varias variables presentan un sesgo positivo hacia la derecha, indicando la presencia de valores extremadamente altos que afectan la distribución de los datos. En el análisis previo, los boxplots demostraron cómo estos valores elevados influían en la visualización (ver el apartado de procesamiento y limpieza de datos). Dado que no fue posible eliminarlos debido a su importancia en la base de datos, he decidido segmentar las variables. Esta estrategia permitirá un análisis exploratorio más detallado y ayudará a gestionar mejor los valores elevados.
 
-Dado lo anterior, inicié la segmentación utilizando cuartiles. No obstante, para lograr una visualización y segmentación más precisa en algunas variables opté por una segmentación manual. Esto me permitió ajustar las categorías de manera más efectiva y obtener una visión más clara. Así, hemos definido los siguientes segmentos:
+Dado lo anterior, inicié la segmentación utilizando cuartiles. No obstante, para lograr una visualización y segmentación más precisa en algunas variables opté por una segmentación manual. Esto me permitió ajustar las categorías de manera más efectiva y obtener una visión más clara. 
 
-* **age**
-  
-    * 21 - 42
-    * 43 - 52
-    * 53 - 63
-    * 64 - 95
-      
-* **last_month_salary**
-  
-    * 0 - 3947
-    * 3948 - 5797
-    * 5798 - 7495
-    * 7496 - 150000
-  
-* **total_loans**
-  
-    * 1 - 4
-    * 5 - 8
-    * 9 - 11
-    * 12 - 57
+Para observar el comportamiento de la segmentación, calcule las **medidas de tendencia central** 
 
-* **more_90_days_overdue**
-  
-    * 0
-    * 1 - 3
-    * 4 - 6
-    * 7+
 
-* **debt_ratio**
-  
-    * 0 - 0.18
-    * 0.19 - 0.37
-    * 0.38 - 0.88
-    * 0.89 - 36705
+![Captura de pantalla 2024-08-11 162234](https://github.com/user-attachments/assets/bd79a1ed-9b69-4cc6-b23c-57d46c7e46ec)
 
-* **using_lines_not_secured_personal_assets**
-  
-    * 0 - 0.14
-    * 0.15 - 0.6
-    * 0.7 - 0.9
-    * 1 - 8710
 
-Seguimos con las medidas de tendencia central 
+![Captura de pantalla 2024-08-11 161949](https://github.com/user-attachments/assets/d4cc2330-dc0b-4493-bdd5-6394459e868e)
 
-![image](https://github.com/user-attachments/assets/34114893-29b5-4146-b960-7ce19dd3dc7c)
-
-![image](https://github.com/user-attachments/assets/769886fc-dc32-4ffe-a657-cf371dd1d7f8)
 
 
 Estas medidas nos permiten evaluar la eficacia de la segmentación. Para las variables age, total_loans y last_month_salary, la mediana y el promedio son bastante cercanos, lo que sugiere una distribución relativamente uniforme. Sin embargo, en debt_ratio y using_lines_not_secured_personal_assets, el último cuartil presenta un sesgo positivo hacia la derecha, ya que el promedio es significativamente mayor que la mediana. Esto indica que estos segmentos están afectados por valores extremos elevados, que mantienen el sesgo positivo.
@@ -106,15 +67,12 @@ Para **explorar las variables categóricas**, decidí plantear preguntas especí
 
 ### 1.¿Cuál es el rango de edad predominante entre los usuarios, y cuáles son los grupos etarios que solicitan más préstamos?
 
-![image](https://github.com/user-attachments/assets/b58f54df-26e0-42e4-a123-8aa28b1615de)
+![image](https://github.com/user-attachments/assets/2672bdb7-6ade-4ea4-b34a-9b300ab81c90)
 
 
-Podemos observar que el rango etario con la mayor cantidad de usuarios es el de 21 a 42 años, mientras que el rango con la mayor cantidad de préstamos es el de 53 a 63 años. Sin embargo, al aplicar el filtro para visualizar los usuarios catalogados como morosos, encontramos lo siguiente:
-
-![image](https://github.com/user-attachments/assets/7c7a0910-2ebb-4449-b5f1-722ba03dcdc9)
+El gráfico está filtrado para mostrar únicamente a los clientes catalogados como morosos. En él, el rango etario con la mayor cantidad de usuarios es el de 47 a 63 años, y también es el grupo con el mayor número de préstamos. Este gráfico sugiere, como primer indicio, que la hipótesis de que los más jóvenes tienen un mayor riesgo de impago podría ser incorrecta, ya que el número de usuarios en el rango de edad más joven es menor. Sin embargo, esta observación no proporciona una base sólida, ya que es necesario comparar la cantidad de clientes en cada segmento. Este análisis más detallado se realizará mediante el cálculo del riesgo relativo en etapas posteriores.
 
 
-El rango etario con la mayor cantidad de clientes catalogados como morosos es también el de 21 a 42 años. Este es el mismo rango que tiene el mayor número de préstamos.
 
 
 ### 2. ¿En qué rango de salario se encuentran los usuarios con mayor cantidad de préstamos?
@@ -151,3 +109,20 @@ Estas preguntas nos proporcionan una idea más clara sobre el perfil y el compor
 El riesgo relativo en segmentos de variables específicas me permitió comparar la probabilidad de que un cliente fuera un mal pagador en cada segmento. Esto me ayudó a identificar qué segmentos tenían mayor riesgo en comparación con otros.
 
 Calcule el riesgo relativo para todas las variables que segmenté en el análisis exploratorio. Esto me permitió ver qué segmentos estaban más expuestos a ser catalogados como malos pagadores. Además, estos resultados me proporcionaron la base para validar o refutar las hipótesis planteadas y para definir el perfil de los clientes con mayor riesgo de morosidad.
+
+![Captura de pantalla 2024-08-11 162848](https://github.com/user-attachments/assets/02fb37b8-6f21-4252-b494-721a54451dd7)
+
+
+
+![Captura de pantalla 2024-08-11 162731](https://github.com/user-attachments/assets/7f463a5b-46d8-4fca-aee7-20029dc9242b)
+
+**Validación de Hipótesis**
+**1. ¿Los más jóvenes tienen un mayor riesgo de impago?**
+Los resultados muestran que los rangos etarios más jóvenes (21 - 35 y 36 - 46) tienen un riesgo relativo más alto de impago en comparación con los demás rangos. Por lo tanto se valida la hipotesis 
+**2. ¿Las personas con más cantidad de préstamos activos tienen mayor riesgo de ser malos pagadores?**
+Los resultados muestran que las personas con entre 1 y 4 préstamos activos tienen un riesgo  más alto de impago en comparación con el resto de segmentos.Estos resultados no apoyan la hipótesis de que una mayor cantidad de préstamos activos está asociada con un mayor riesgo de impago. De hecho, el riesgo parece ser menor en los grupos con más préstamos activos.
+
+**3. ¿Las personas que han retrasado sus pagos por más de 90 días tienen mayor riesgo de ser malos pagadores?**
+
+Los resultados muestran que las personas que han retrasado sus pagos por más de 90 días tienen un riesgo significativamente mayor de impago  en comparación con aquellas que no han tenido retrasos en sus pagos. Los valores altos de riesgo relativo en los rangos de retraso indican que cuanto mayor es el retraso en los pagos, mayor es el riesgo de ser un mal pagador.
+Esto apoya la hipótesis de que las personas con retrasos prolongados en sus pagos tienen un mayor riesgo de ser malos pagadores.
