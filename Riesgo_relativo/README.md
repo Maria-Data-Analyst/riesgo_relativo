@@ -56,10 +56,14 @@ display_full_df(result_more90_range, "Riesgo Relativo por Rango de More90")
 display_full_df(result_debt_ratio_range, "Riesgo Relativo por Rango de Debt Ratio")
 display_full_df(result_using_lines_range, "Riesgo Relativo por Rango de Using Lines")
 ```
-![image](https://github.com/user-attachments/assets/932c811c-836c-4177-bb20-e049f9fbb124)
+
+![Captura de pantalla 2024-08-11 162848](https://github.com/user-attachments/assets/ad6d7f5c-5cf8-48ed-9702-52aacbbb53bd)
 
 
-![image](https://github.com/user-attachments/assets/9bdd737f-7a05-4162-a263-b23c589c641f)
+
+
+![Captura de pantalla 2024-08-11 162731](https://github.com/user-attachments/assets/8eabf62d-59fc-4daa-bcf1-e6358c24e06c)
+
 
 
 
