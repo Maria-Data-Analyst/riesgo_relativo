@@ -65,10 +65,6 @@ display_full_df(result_using_lines_range, "Riesgo Relativo por Rango de Using Li
 ![Captura de pantalla 2024-08-11 162731](https://github.com/user-attachments/assets/8eabf62d-59fc-4daa-bcf1-e6358c24e06c)
 
 
-
-
-
-
 Con base en los resultados del análisis de riesgo relativo para cada variable, procederemos a crear variables de tipo bandera en la vista tabla_consolidado. Estas variables se marcarán con un valor de 1 para aquellos rangos que presenten un riesgo relativo superior a 1.05, lo que indica una mayor probabilidad de ser clasificados como morosos según la variable default_flag. Esta estrategia nos permitirá identificar con mayor precisión los segmentos que presentan una mayor exposición al riesgo de incumplimiento.
 
 Sin embargo, excluiremos la variable debt_ratio del análisis, ya que observamos que el único cuartil con riesgo relativo significativo no corresponde al cuartil con los valores más altos, como era de esperar. Por lo tanto, es necesario realizar una investigación más detallada sobre los valores de esta variable para entender por qué los valores menores de debt_ratio están siendo más propensos a la morosidad en comparación con los valores altos de esta métrica.
@@ -106,7 +102,7 @@ CASE
 En los grupos encontrados, validar la hipótesis de cuáles tienen un riesgo relativo distinto.
 
 ### 1. Los más jóvenes tienen un mayor riesgo de impago.
-Los cálculos del riesgo relativo indican que los grupos con mayor exposición a impago se encuentran entre los 21 y 52 años, que corresponden a los dos primeros cuartiles de edad. Por lo tanto, esta hipótesis parece ser correcta, ya que los datos sugieren que los jóvenes tienen un mayor riesgo de ser clasificados como morosos.
+Los cálculos del riesgo relativo indican que los grupos con mayor exposición a impago se encuentran entre los 21 y 46 años, que corresponden a los dos primeros cuartiles de edad. Por lo tanto, esta hipótesis parece ser correcta, ya que los datos sugieren que los jóvenes tienen un mayor riesgo de ser clasificados como morosos.
 
 ### 2. Las personas con más cantidad de préstamos activos tienen mayor riesgo de ser malos pagadores.
 Esta hipótesis se rechaza, ya que el análisis del riesgo relativo muestra que los grupos con mayor exposición al riesgo de ser calificados como morosos se encuentran en el primer y segundo cuartil, los cuales tienen una cantidad de préstamos menor en comparación con los demás cuartiles. Esto sugiere que, contrariamente a lo esperado, una mayor cantidad de préstamos activos no se correlaciona con un mayor riesgo de impago.
