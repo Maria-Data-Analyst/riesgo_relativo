@@ -126,3 +126,30 @@ Los resultados muestran que las personas con entre 1 y 4 préstamos activos tien
 
 Los resultados muestran que las personas que han retrasado sus pagos por más de 90 días tienen un riesgo significativamente mayor de impago  en comparación con aquellas que no han tenido retrasos en sus pagos. Los valores altos de riesgo relativo en los rangos de retraso indican que cuanto mayor es el retraso en los pagos, mayor es el riesgo de ser un mal pagador.
 Esto apoya la hipótesis de que las personas con retrasos prolongados en sus pagos tienen un mayor riesgo de ser malos pagadores.
+
+### Score Crediticio 
+
+Al optimizar la evaluación del riesgo crediticio, decidí enfocarme en tres variables clave: último salario, retraso de más de 90 días, y uso de crédito en líneas no aseguradas. Estas variables fueron seleccionadas por las siguientes razones:
+
+**1. Último Salario:**
+
+**Relevancia Directa:** El último salario se consideró un indicador fundamental de la capacidad de pago del cliente. Un salario más alto generalmente sugiere una mayor capacidad para cumplir con las obligaciones financieras.
+**Estabilidad Financiera:** Esta variable ofreció una visión clara de la estabilidad financiera del cliente, ayudando a evaluar su capacidad para manejar nuevas obligaciones crediticias.
+**2. Retraso de Más de 90 Días:**
+
+**Historial de Mora:** El retraso en los pagos por más de 90 días fue un fuerte indicador de problemas financieros serios y un alto riesgo de impago. Esta variable proporcionó una señal clara de la probabilidad de que un cliente pudiera enfrentar dificultades en el futuro.
+**Impacto Significativo:** Los retrasos prolongados tuvieron un impacto significativo en la evaluación del riesgo, ya que reflejaron patrones de comportamiento que indicaban problemas de solvencia.
+**3. Uso de Crédito en Líneas No Aseguradas:**
+
+**Nivel de Endeudamiento:** El uso de crédito en líneas no aseguradas indicaba el nivel de endeudamiento del cliente sin respaldo de activos. Un alto uso de estas líneas pudo ser un indicio de estrés financiero y un mayor riesgo de impago.
+**Exposición al Riesgo:** Esta variable ayudó a identificar clientes que podrían estar sobrecargados financieramente, afectando su capacidad para cumplir con nuevos compromisos de crédito.
+**Variables Excluidas:**
+
+**Edad:** Aunque la edad podría ofrecer contexto, su impacto en el riesgo crediticio no resultó ser tan directo como el de las variables seleccionadas. La capacidad de pago y el historial financiero se consideraron indicadores más precisos del riesgo de impago.
+**Número de Préstamos:** El número total de préstamos no reflejó adecuadamente la capacidad de un cliente para manejar nuevos créditos. Un cliente con varios préstamos pudo tener un historial sólido y una buena capacidad de pago, por lo que esta variable se consideró menos relevante para la evaluación del riesgo en comparación con las variables seleccionadas.
+
+En el código de BigQuery, se crearon variables bandera para facilitar la visualización de los usuarios en los segmentos de riesgo relativo. Estas variables, denominadas salary_rr_flag, more90_rr_flag, y using_lines_rr_flag, indican si un cliente pertenece a segmentos de riesgo en las tres categorías consideradas.
+
+Un cliente será clasificado como buen pagador si todas estas variables bandera están en estado "apagado", lo que indica que no está en riesgo en ninguna de las categorías. Sin embargo, si al menos una de estas variables bandera está activada, el cliente será marcado como mal pagador.
+
+A pesar de que la activación de una sola bandera ya indique un riesgo, también crearemos una variable adicional llamada puntos que sumará los valores de las tres variables bandera. Esto nos permitirá evaluar la magnitud del riesgo del cliente, identificando si está en riesgo en una, dos o en las tres categorías. Esta métrica adicional proporcionará una visión más detallada del perfil de riesgo del cliente.
