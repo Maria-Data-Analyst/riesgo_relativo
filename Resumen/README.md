@@ -155,3 +155,28 @@ En el código de BigQuery, se crearon variables bandera para facilitar la visual
 Un cliente será clasificado como buen pagador si todas estas variables bandera están en estado "apagado", lo que indica que no está en riesgo en ninguna de las categorías. Sin embargo, si al menos una de estas variables bandera está activada, el cliente será marcado como mal pagador.
 
 A pesar de que la activación de una sola bandera ya indique un riesgo, también crearemos una variable adicional llamada puntos que sumará los valores de las tres variables bandera. Esto nos permitirá evaluar la magnitud del riesgo del cliente, identificando si está en riesgo en una, dos o en las tres categorías. Esta métrica adicional proporcionará una visión más detallada del perfil de riesgo del cliente.
+
+
+![image](https://github.com/user-attachments/assets/9cafe854-c62f-4d71-a9f2-ebb976c467c5)
+
+
+**Matriz de confusión**
+Con el puntaje asignado y la identificación de malos pagadores, podemos evaluar nuestro modelo de detección de malos pagadores creando una matriz de confusión en Google Colab. Esta matriz nos permitirá comparar nuestra clasificación con la existente en la base de datos, denominada default_flag, para validar la efectividad de nuestro modelo.
+
+![Captura de pantalla 2024-08-11 182942](https://github.com/user-attachments/assets/bbb8aeef-1f50-46a8-9092-2e09df172f6c)
+
+El modelo que he implementado para identificar malos pagadores se basa en tres condiciones específicas:
+
+* Retrasos en los pagos superiores a 90 días.
+* Uso de líneas de crédito no aseguradas superior al 70%.
+* Ingresos mensuales inferiores a $3,947.
+  
+**Resultados del Modelo:**
+
+El modelo ha alcanzado un recall de 1 para todos los clientes que actualmente están clasificados como malos pagadores según el default_flag existente. Además, ha identificado a 13,035 clientes adicionales que el default_flag considera como buenos pagadores, pero que cumplen con al menos una de las condiciones de riesgo establecidas en el nuevo modelo
+
+**Implicaciones:**
+
+**Discrepancias con el default_flag Actual:** La discrepancia entre el nuevo modelo y el default_flag sugiere que el actual default_flag podría estar subestimando el riesgo. El modelo propuesto ha identificado un 37% más de malos pagadores en comparación con el default_flag, que solo identifica el 1.75% de los clientes como malos pagadores.
+
+**Necesidad de Revisión:** Es crucial revisar los criterios utilizados para definir el default_flag. Es posible que el default_flag actual esté basado en información clave que no está presente en el conjunto de datos actual, lo que podría estar contribuyendo a la discrepancia observada en las clasificaciones. Una revisión detallada permitirá identificar y corregir posibles deficiencias en los datos y mejorar la precisión de la clasificación de malos pagadores.
