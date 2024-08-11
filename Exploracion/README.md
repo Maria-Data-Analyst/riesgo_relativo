@@ -27,6 +27,7 @@ SELECT
     loans_detail.more_90_days_overdue,
     loans_detail.debt_ratio,
 
+    -- Rango de edad
     CASE
       WHEN user_default.age >= 21 AND user_default.age <= 42 THEN '21 - 42'
       WHEN user_default.age >= 43 AND user_default.age <= 52 THEN '43 - 52'
@@ -35,6 +36,7 @@ SELECT
       ELSE 'Fuera de rango'
     END AS age_range,
 
+    -- Rango de salario
     CASE
       WHEN user_default.last_month_salary >= 0 AND user_default.last_month_salary <= 3947 THEN '0 - 3947'
       WHEN user_default.last_month_salary >= 3948 AND user_default.last_month_salary <= 5797 THEN '3948 - 5797'
@@ -43,50 +45,142 @@ SELECT
       ELSE 'Fuera de rango'
     END AS salary_range,
 
+    -- Rango de total de préstamos
     CASE
-    WHEN loans_outstanding.total_loans >= 1 AND loans_outstanding.total_loans <= 4 THEN '1 - 4'
-    WHEN loans_outstanding.total_loans >= 5 AND loans_outstanding.total_loans <= 8 THEN '5 - 8'
-    WHEN loans_outstanding.total_loans >= 9 AND loans_outstanding.total_loans <= 11 THEN '9 - 11'
-    WHEN loans_outstanding.total_loans >= 12 AND loans_outstanding.total_loans <= 57 THEN '12 - 57'
-    ELSE 'Fuera de rango'
+      WHEN loans_outstanding.total_loans >= 1 AND loans_outstanding.total_loans <= 4 THEN '1 - 4'
+      WHEN loans_outstanding.total_loans >= 5 AND loans_outstanding.total_loans <= 8 THEN '5 - 8'
+      WHEN loans_outstanding.total_loans >= 9 AND loans_outstanding.total_loans <= 11 THEN '9 - 11'
+      WHEN loans_outstanding.total_loans >= 12 AND loans_outstanding.total_loans <= 57 THEN '12 - 57'
+      ELSE 'Fuera de rango'
     END AS total_loans_range,
 
+    -- Rango de mora de más de 90 días
     CASE
-    WHEN loans_detail.more_90_days_overdue = 0 THEN '0'
-    ELSE '1'
+      WHEN loans_detail.more_90_days_overdue = 0 THEN '0'
+      WHEN loans_detail.more_90_days_overdue >= 1 AND loans_detail.more_90_days_overdue <= 3   THEN '1-3'
+      WHEN loans_detail.more_90_days_overdue >= 4 AND loans_detail.more_90_days_overdue <= 6   THEN '4-6'
+      WHEN loans_detail.more_90_days_overdue >=  7 THEN '7+'
+      ELSE 'fuera de rango'
     END AS more90_range,
 
+    -- Rango de deuda
     CASE 
-     WHEN loans_detail.debt_ratio >= 0 AND loans_detail.debt_ratio <= 0.18 THEN '0 - 0.18'
-     WHEN loans_detail.debt_ratio >= 0.19 AND loans_detail.debt_ratio <= 0.37 THEN '0.19 - 0.37'
-     WHEN loans_detail.debt_ratio >= 0.38 AND loans_detail.debt_ratio <= 0.88 THEN '0.38 - 0.88'
-     WHEN loans_detail.debt_ratio >= 0.89 AND loans_detail.debt_ratio <= 36705 THEN '0.89 - 36705'
-    ELSE 'FUERA DE RANGO'
+      WHEN loans_detail.debt_ratio >= 0 AND loans_detail.debt_ratio < 0.19 THEN '0 - 0.18'
+      WHEN loans_detail.debt_ratio >= 0.19 AND loans_detail.debt_ratio < 0.38 THEN '0.19 - 0.37'
+      WHEN loans_detail.debt_ratio >= 0.38 AND loans_detail.debt_ratio < 0.89 THEN '0.38 - 0.88'
+      WHEN loans_detail.debt_ratio >= 0.89 AND loans_detail.debt_ratio < 36706 THEN '0.89 - 36705'
+      ELSE 'Fuera de rango'
     END AS debt_ratio_range,
 
-      CASE 
+    -- Rango de uso de líneas de crédito no aseguradas
+    CASE 
       WHEN loans_detail.using_lines_not_secured_personal_assets >= 0 AND loans_detail.using_lines_not_secured_personal_assets < 0.15 THEN '0 - 0.14'
       WHEN loans_detail.using_lines_not_secured_personal_assets >= 0.15 AND loans_detail.using_lines_not_secured_personal_assets < 0.7 THEN '0.15 - 0.6'
       WHEN loans_detail.using_lines_not_secured_personal_assets >= 0.7 AND loans_detail.using_lines_not_secured_personal_assets < 1 THEN '0.7 - 0.9'
       WHEN loans_detail.using_lines_not_secured_personal_assets >= 1 AND loans_detail.using_lines_not_secured_personal_assets <= 8710 THEN '1 - 8710'
       ELSE 'Fuera de rango'
     END AS using_lines_range,
-  FROM 
+
+    -- Flags para el análisis de riesgo
+    CASE
+      WHEN user_default.age >= 21 AND user_default.age <= 42 THEN 1
+      WHEN user_default.age >= 43 AND user_default.age <= 52 THEN 1
+      ELSE 0
+    END AS age_rr_flag,
+
+    CASE
+      WHEN user_default.last_month_salary >= 0 AND user_default.last_month_salary <= 3947 THEN 1
+      ELSE 0
+    END AS salary_rr_flag,
+
+    CASE
+      WHEN loans_outstanding.total_loans >= 1 AND loans_outstanding.total_loans <= 4 THEN 1
+      WHEN loans_outstanding.total_loans >= 5 AND loans_outstanding.total_loans <= 8 THEN 0
+      ELSE 0
+    END AS total_loans_rr_flag,
+
+    CASE
+      WHEN loans_detail.more_90_days_overdue = 0 THEN 0
+      ELSE 1
+    END AS more90_rr_flag,
+
+    CASE 
+     WHEN loans_detail.using_lines_not_secured_personal_assets >= 0.7 AND loans_detail.using_lines_not_secured_personal_assets < 1 THEN 1
+      WHEN loans_detail.using_lines_not_secured_personal_assets >= 1 AND loans_detail.using_lines_not_secured_personal_assets <= 8710 THEN 1
+      ELSE 0
+    END AS using_lines_rr_flag,
+
+    -- Cálculo de puntos
+    (CASE 
+     WHEN loans_detail.using_lines_not_secured_personal_assets >= 0.7 AND loans_detail.using_lines_not_secured_personal_assets < 1 THEN 1
+      WHEN loans_detail.using_lines_not_secured_personal_assets >= 1 AND loans_detail.using_lines_not_secured_personal_assets <= 8710 THEN 1
+      ELSE 0
+    END * 3 +
+    CASE
+      WHEN user_default.age >= 21 AND user_default.age <= 42 THEN 1
+      WHEN user_default.age >= 43 AND user_default.age <= 52 THEN 1
+      ELSE 0
+    END * 2 +
+    CASE
+      WHEN user_default.last_month_salary >= 0 AND user_default.last_month_salary <= 3947 THEN 1
+      ELSE 0
+    END * 3 +
+    CASE
+      WHEN loans_outstanding.total_loans >= 1 AND loans_outstanding.total_loans <= 4 THEN 1
+      WHEN loans_outstanding.total_loans >= 5 AND loans_outstanding.total_loans <= 8 THEN 0
+      ELSE 0
+    END * 2 +
+    CASE
+      WHEN loans_detail.more_90_days_overdue = 0 THEN 0
+      ELSE 1
+    END * 3) AS puntos,
+
+    -- Determinación de malos pagadores
+    CASE
+      WHEN (CASE
+              WHEN user_default.age >= 21 AND user_default.age <= 42 THEN 1
+              WHEN user_default.age >= 43 AND user_default.age <= 52 THEN 1
+              ELSE 0
+            END * 2 +
+            CASE 
+              WHEN loans_detail.using_lines_not_secured_personal_assets >= 0.7 AND loans_detail.using_lines_not_secured_personal_assets < 1 THEN 1
+      WHEN loans_detail.using_lines_not_secured_personal_assets >= 1 AND loans_detail.using_lines_not_secured_personal_assets <= 8710 THEN 1
+              ELSE 0
+            END * 3 +
+            CASE
+              WHEN user_default.last_month_salary >= 0 AND user_default.last_month_salary <= 3947 THEN 1
+              ELSE 0
+            END * 3 +
+            CASE
+              WHEN loans_outstanding.total_loans >= 1 AND loans_outstanding.total_loans <= 4 THEN 1
+              WHEN loans_outstanding.total_loans >= 5 AND loans_outstanding.total_loans <= 8 THEN 0
+              ELSE 0
+            END * 2 +
+            CASE
+              WHEN loans_detail.more_90_days_overdue = 0 THEN 0
+              ELSE 1
+            END * 3) >= 3 THEN 1
+      ELSE 0
+    END AS malos_pagadores
+
+FROM 
     `riesgo-relativo-1.dataset.loans_detail_clean` AS loans_detail
-  INNER JOIN
+INNER JOIN
     `riesgo-relativo-1.dataset.loans_outstanding_clean` AS loans_outstanding
-  ON
+ON
     loans_detail.user_id = loans_outstanding.user_id
-  INNER JOIN
+INNER JOIN
     `riesgo-relativo-1.dataset.user_info_default` AS user_default
-  ON
-    user_default.user_id = loans_outstanding.user_id
+ON
+    user_default.user_id = loans_outstanding.user_id;
 ```
 
-Hemos segmentado la variable more_90_days_overdue en dos categorías para poder validar más adelante la siguiente hipótesis: las personas que han retrasado sus pagos por más de 90 días tienen un mayor riesgo de ser malos pagadores. Por lo tanto, para este análisis, nos enfocamos en dos grupos: aquellos que han tenido al menos un retraso de más de 90 días y aquellos que no han tenido ningún retraso en este periodo.
 
 
 ![image](https://github.com/user-attachments/assets/c408a9c9-badb-4991-93d6-06bd90ef7509)
+
+
+
 
 ## Asociación y visualización de variables categóricas  
 Para este paso, conectaremos la tabla_consolidada en Looker Studio, lo que nos permitirá crear tablas y gráficos necesarios para el análisis. Además, formulamos preguntas específicas para orientar nuestra exploración de datos, de modo que podamos responderlas con la información disponible.
@@ -130,8 +224,10 @@ Vamos a analizar las medias y desviaciones estándar de las variables para evalu
 
 ![image](https://github.com/user-attachments/assets/12011f6c-0ff8-4a11-9605-73bc0de8c7cc)
 
+![image](https://github.com/user-attachments/assets/58e8df7c-ccec-48d1-a739-c32810cd8cda)
 
-Observamos que la segmentación de las variables age y total_loans muestra valores de mediana y promedio cercanos entre sí, lo que indica que la segmentación ha sido adecuada. Sin embargo, para las variables last_month_salary, debt_ratio, y using_lines_not_secured_personal_assets, el último cuartil aún presenta un sesgo positivo hacia la derecha, ya que el promedio es mayor que la mediana. Esto sugiere que estos datos están influidos por valores extremos elevados en estas variables
+Observamos que la segmentación de las variables more_90_days, last_month_salary, age y total_loans muestra valores de mediana y promedio cercanos entre sí, lo que indica que la segmentación ha sido adecuada. Sin embargo, para las variables , debt_ratio, y using_lines_not_secured_personal_assets, el último cuartil aún presenta un sesgo positivo hacia la derecha, ya que el promedio es mayor que la mediana. Esto sugiere que estos datos están influidos por valores extremos elevados en estas variables. Tambien podemos observar que la mayoria de los datos de la variable more_90_days  estan en el segmento de 0 veces, ese segmento constitute el 95% de la base de datos.
+La mayor desviación estándar en el último cuartil indica que los valores en este segmento son mucho más variados. Esto podría ser el resultado de la presencia de valores atípicos o extremos que están influyendo significativamente en la variabilidad de los datos
 
 ## BOXPLOT
 ### age
