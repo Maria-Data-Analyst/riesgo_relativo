@@ -31,14 +31,19 @@ Al optimizar la evaluación del riesgo crediticio, decidí enfocarme en tres var
 **1. Último Salario:**
 
 **Relevancia Directa:** El último salario se consideró un indicador fundamental de la capacidad de pago del cliente. Un salario más alto generalmente sugiere una mayor capacidad para cumplir con las obligaciones financieras.
+
 **Estabilidad Financiera:** Esta variable ofreció una visión clara de la estabilidad financiera del cliente, ayudando a evaluar su capacidad para manejar nuevas obligaciones crediticias.
+
 **2. Retraso de Más de 90 Días:**
 
 **Historial de Mora:** El retraso en los pagos por más de 90 días fue un fuerte indicador de problemas financieros serios y un alto riesgo de impago. Esta variable proporcionó una señal clara de la probabilidad de que un cliente pudiera enfrentar dificultades en el futuro.
+
 **Impacto Significativo:** Los retrasos prolongados tuvieron un impacto significativo en la evaluación del riesgo, ya que reflejaron patrones de comportamiento que indicaban problemas de solvencia.
+
 **3. Uso de Crédito en Líneas No Aseguradas:**
 
 **Nivel de Endeudamiento:** El uso de crédito en líneas no aseguradas indicaba el nivel de endeudamiento del cliente sin respaldo de activos. Un alto uso de estas líneas pudo ser un indicio de estrés financiero y un mayor riesgo de impago.
+
 **Exposición al Riesgo:** Esta variable ayudó a identificar clientes que podrían estar sobrecargados financieramente, afectando su capacidad para cumplir con nuevos compromisos de crédito.
 
 **Variables Excluidas:**
