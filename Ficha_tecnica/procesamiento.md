@@ -37,4 +37,4 @@ La exclusión de datos atípicos se realizó mediante sentencias en la vista de 
 
 El último paso del procesamiento consistió en unir las vistas de las tablas que habían sido modificadas y contenían datos limpios. La unión se realizó mediante un **INNER JOIN** para asegurar que solo se incluyeran los usuarios con información completa en todas las variables de las distintas tablas. Esta operación resultó en una **tabla consolidada con 35,546 usuarios, de los cuales 621 estaban clasificados como clientes morosos, representando solo el 1.75%**
 
-[Análisis Exploratorio]()
+[Análisis Exploratorio](https://github.com/Maria-Data-Analyst/riesgo_relativo/blob/Consultas-Query/Ficha_tecnica/AED.md)
