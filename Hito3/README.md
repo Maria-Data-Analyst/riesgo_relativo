@@ -180,21 +180,7 @@ plt.show()
 ![Captura de pantalla 2024-08-12 192551](https://github.com/user-attachments/assets/2e92bb5d-a66d-4b4b-beba-4a66d167b4e8)
 
 
-En el análisis de riesgo relativo, identificamos que el grupo con mayores probabilidades de ser calificado como mal pagador eran aquellos con ingresos del último mes entre 0 y 3947. Este segmento de salario tuvo un peso significativo en la clasificación de malos pagadores.
-
-No obstante, al revisar los coeficientes del modelo de regresión para default_flag, encontramos que este segmento de ingresos no tiene un peso relevante, a pesar de su alto riesgo relativo. En contraste, el segmento de ingresos entre 5798 y 7495 muestra un coeficiente positivo considerable, indicando que este rango tiene una mayor influencia en la probabilidad de incumplimiento según el modelo.
-
-Esta discrepancia puede explicar en parte por qué el modelo de regresión no presenta buenas métricas en la identificación de malos pagadores. La falta de consideración de variables importantes, como los ingresos más bajos que resultaron críticos en el análisis de riesgo relativo, podría estar limitando la capacidad del modelo para predecir con precisión el incumplimiento de pagos
+En el análisis de riesgo relativo, identificamos que el grupo con mayores probabilidades de ser calificado como mal pagador era aquel con ingresos del último mes entre 0 y 3947. Sin embargo, al revisar los coeficientes del modelo de regresión para default_flag, encontramos que este segmento de ingresos no tiene un peso relevante, a pesar de su alto riesgo relativo. En contraste, el segmento de ingresos entre 5798 y 7495 muestra un coeficiente positivo considerable, lo que indica que este rango tiene una mayor influencia en la probabilidad de incumplimiento cuando se evalúan todas las variables en conjunto
 
 
-## Modelo de Regresión Logística para Predecir malos_pagadores
 
-La variable de clasificación creada a partir del score crediticio se denomina malos_pagadores. Para construir el modelo de regresión logística, aplicaremos el mismo proceso que utilizamos para la variable default_flag. Esto incluye seleccionar las variables independientes relevantes y establecer malos_pagadores como la variable dependiente. De esta manera, podremos evaluar el desempeño del modelo en la predicción de clientes clasificados como malos pagadores mediante la matriz de confusión
-
-![Captura de pantalla 2024-08-12 194540](https://github.com/user-attachments/assets/8b59e55c-d58c-43bb-abb0-6ecce49d6ddf)
-
-La matriz de confusión muestra que el modelo ha clasificado todas las instancias correctamente, sin errores de clasificación en ninguno de los grupos. Esto indica que el modelo ha logrado una clasificación precisa en el conjunto de datos de prueba. Sin embargo, para asegurar que el modelo no esté simplemente memorizando los datos de entrenamiento y que pueda generalizar a nuevos datos, es crucial evaluarlo en un conjunto de datos completamente independiente que no se haya utilizado en el entrenamiento ni en la validación. Esta evaluación es esencial para confirmar la capacidad de generalización del modelo y su efectividad en condiciones reales
-
-![Captura de pantalla 2024-08-12 195517](https://github.com/user-attachments/assets/2d915f0c-fbc9-42c3-824f-7d7ebdaf4d41)
-
-Al examinar los coeficientes de la regresión lineal, se observa que reflejan adecuadamente la importancia de las características en la construcción del score de riesgo. Los segmentos con los coeficientes más altos corresponden a las características que tienen una mayor influencia en la clasificación de un mal pagador. En particular, los segmentos de ingresos bajos (salary_range_0 - 3947), la cantidad de retrasos de más de 90 días y ciertos rangos de uso de líneas de crédito (using_lines_range_0.7 - 0.9, using_lines_range_1 - 8710) tienen los coeficientes más altos, lo que indica su fuerte impacto en el riesgo de incumplimiento. 
