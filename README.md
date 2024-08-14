@@ -15,7 +15,8 @@ El proyecto nos pide validar las siguientes hipotesis
 
 <details>
   <summary>Ficha Técnica</summary>
-
+    Toma de decisiones y conclusiones
+  
   1. [**Procesamiento y Preparación de la Base de Datos**](https://github.com/Maria-Data-Analyst/riesgo_relativo/blob/Consultas-Query/Ficha_tecnica/procesamiento.md)
      
   2. [**Análisis Exploratorio de Datos**](https://github.com/Maria-Data-Analyst/riesgo_relativo/blob/Consultas-Query/Ficha_tecnica/AED.md)
@@ -29,7 +30,8 @@ El proyecto nos pide validar las siguientes hipotesis
 
  <details>
   <summary>Bitacora</summary>
-
+     Código y visualización
+   
   1. [**Procesamiento y Preparación de la Base de Datos**](https://github.com/Maria-Data-Analyst/riesgo_relativo/blob/Consultas-Query/Bitacora/procesamiento.md)
      - Limpieza de datos.
      - Transformación y estructuración de la información.
