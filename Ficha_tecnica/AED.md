@@ -66,4 +66,4 @@ Aquí podemos observar que el 72% de los usuarios catalogados como morosos ha te
 Estas preguntas nos proporcionan una idea más clara sobre el perfil y el comportamiento de los usuarios. Sin embargo, esta exploración por sí sola no es suficiente para validar o refutar las hipótesis. Por lo tanto, continuaremos utilizando técnicas de análisis más avanzadas para obtener fundamentos sólidos en la validación de las hipótesis planteadas y para desarrollar un proceso automatizado de análisis de clientes que permita identificar eficazmente a los buenos y malos pagadores.
 
 
-[Técnica de análisis]()
+[Técnica de análisis](https://github.com/Maria-Data-Analyst/riesgo_relativo/blob/Consultas-Query/Ficha_tecnica/tecnica_analisis.md)
