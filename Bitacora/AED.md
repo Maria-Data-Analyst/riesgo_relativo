@@ -176,4 +176,4 @@ Para finalizar el análisis exploratorio, procederemos a generar una matriz de c
 Vemos un 0.58 que indica una correlación positiva moderada. Esto significa que hay una tendencia general a que los clientes que tienen un alto número de veces vencidas más de 90 días (valor alto en more_90_days_overdue) también tienden a ser clasificados como morosos (valor de 1 en default_flag)
 
 
-[Riesgo Relativo](https://github.com/Maria-Data-Analyst/riesgo_relativo/tree/Consultas-Query/Riesgo_relativo)
+[Técnica de análisis](https://github.com/Maria-Data-Analyst/riesgo_relativo/blob/Consultas-Query/Bitacora/tecnica_analisis.md)
