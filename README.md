@@ -13,31 +13,40 @@ El proyecto nos pide validar las siguientes hipotesis
 
 ### Índice
 
- *  [**Resumen**](https://github.com/Maria-Data-Analyst/riesgo_relativo/tree/Consultas-Query/Resumen)
-
-
 <details>
-  <summary>Pasos detallados del proceso</summary>
+  <summary>Ficha Técnica</summary>
 
-  1. [**Procesamiento y Preparación de la Base de Datos**](https://github.com/Maria-Data-Analyst/riesgo_relativo/tree/Consultas-Query/Procesamiento)
+  1. [**Procesamiento y Preparación de la Base de Datos**](https://github.com/Maria-Data-Analyst/riesgo_relativo/blob/Consultas-Query/Ficha_tecnica/procesamiento.md)
+     
+  2. [**Análisis Exploratorio de Datos**](https://github.com/Maria-Data-Analyst/riesgo_relativo/blob/Consultas-Query/Ficha_tecnica/AED.md)
+     
+  3.  [**Técnica de análisis**](https://github.com/Maria-Data-Analyst/riesgo_relativo/blob/Consultas-Query/Ficha_tecnica/tecnica_analisis.md)
+    
+     
+</details>
+
+
+
+ <details>
+  <summary>Bitacora</summary>
+
+  1. [**Procesamiento y Preparación de la Base de Datos**](https://github.com/Maria-Data-Analyst/riesgo_relativo/blob/Consultas-Query/Bitacora/procesamiento.md)
      - Limpieza de datos.
      - Transformación y estructuración de la información.
      
-  2. [**Análisis Exploratorio de Datos**](https://github.com/Maria-Data-Analyst/riesgo_relativo/tree/Consultas-Query/Exploracion)
+  2. [**Análisis Exploratorio de Datos**](https://github.com/Maria-Data-Analyst/riesgo_relativo/blob/Consultas-Query/Bitacora/AED.md)
      - Exploración de tendencias y patrones.
      - Identificación de variables relevantes.
-     
-  3. **Aplicación de Técnicas de Análisis**
-     - [Riesgo relativo](https://github.com/Maria-Data-Analyst/riesgo_relativo/tree/Consultas-Query/Riesgo_relativo)
-     - [Hito2. Score crediticio](https://github.com/Maria-Data-Analyst/riesgo_relativo/tree/Consultas-Query/Hito2)
-     - [Hito3. Regresión logística](https://github.com/Maria-Data-Analyst/riesgo_relativo/tree/Consultas-Query/Hito3)
-     
-  4. [**Presentación de Resultados**](https://github.com/Maria-Data-Analyst/Proyecto-Validacion-Hipotesis/tree/main/Presentacion)
-     - Comunicación clara de hallazgos y conclusiones.
-     - Recomendaciones estratégicas basadas en los resultados obtenidos.
-     - [Dashboard](https://github.com/Maria-Data-Analyst/Proyecto-Validacion-Hipotesis/tree/main/Dashboard#readme)
+       
+  3. [**Aplicación de Técnicas de Análisis**](https://github.com/Maria-Data-Analyst/riesgo_relativo/blob/Consultas-Query/Bitacora/tecnica_analisis.md)
+     - Riesgo relativo
+     - Hito2. Score crediticio
+     - Hito3. Regresión logística
      
 </details>
+
+
+
 
 ### Herramientas y Lenguajes 
 - BigQuery
