@@ -15,6 +15,7 @@ Calcule el riesgo relativo para todas las variables que segmenté en el análisi
 
 **1. ¿Los más jóvenes tienen un mayor riesgo de impago?**
 Los resultados muestran que los rangos etarios más jóvenes (21 - 35 y 36 - 46) tienen un riesgo relativo más alto de impago en comparación con los demás rangos. Por lo tanto se valida la hipotesis 
+
 **2. ¿Las personas con más cantidad de préstamos activos tienen mayor riesgo de ser malos pagadores?**
 Los resultados muestran que las personas con entre 1 y 4 préstamos activos tienen un riesgo  más alto de impago en comparación con el resto de segmentos.Estos resultados no apoyan la hipótesis de que una mayor cantidad de préstamos activos está asociada con un mayor riesgo de impago. De hecho, el riesgo parece ser menor en los grupos con más préstamos activos.
 
