@@ -205,11 +205,6 @@ Para mejorar la precisión del modelo y asegurar que la clasificación de malos 
 
 El modelo de regresión logística es una técnica estadística que estima la probabilidad de que ocurra un evento, en este caso, que un cliente sea clasificado como "mal pagador". Este modelo utiliza una fórmula matemática para relacionar una o más variables independientes con la probabilidad de que se produzca el evento.
 
-Para este análisis, desarrollaré dos modelos de regresión logística:
-1. Uno utilizando el `default_flag` original de la base de datos.
-2. Otro basado en la clasificación obtenida mediante el score calculado.
-
-Esto permitirá evaluar y comparar la efectividad de las diferentes clasificaciones en la predicción del comportamiento de pago de los clientes.
 
 Utilizaré Google Colab para esta parte del proyecto, donde primero visualizaré las variables de mi `tabla_consolidado`:
 
