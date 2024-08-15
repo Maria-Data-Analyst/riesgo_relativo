@@ -36,4 +36,4 @@ A continuación se detalla la información contenida en cada tabla:
 | Variable         | Descripción                                                                 |
 |------------------|-----------------------------------------------------------------------------|
 | `user_id`        | Número de identificación del cliente.                                      |
-| `default_flag`   | Clasifica
+| `default_flag`   | 	Clasificación de los clientes morosos (1 para clientes que pagan mal, 0 para clientes que pagan bien)   |
