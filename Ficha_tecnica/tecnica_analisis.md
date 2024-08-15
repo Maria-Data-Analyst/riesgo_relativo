@@ -79,7 +79,7 @@ El modelo ha alcanzado un recall de 1 para todos los clientes que actualmente es
 
 **Implicaciones:**
 
-**Discrepancias con el default_flag Actual:** La discrepancia entre el nuevo modelo y el default_flag sugiere que el actual default_flag podría estar subestimando el riesgo. El modelo propuesto ha identificado un 37% más de malos pagadores en comparación con el default_flag, que solo identifica el 1.75% de los clientes como malos pagadores.
+**Discrepancias con el default_flag Actual:** La discrepancia entre el nuevo modelo y el default_flag sugiere que el actual default_flag podría estar subestimando el riesgo. El modelo propuesto ha identificado un 37% más de usuarios como malos pagadores 
 
 **Necesidad de Revisión:** Es crucial revisar los criterios utilizados para definir el default_flag. Es posible que el default_flag actual esté basado en información clave que no está presente en el conjunto de datos actual, lo que podría estar contribuyendo a la discrepancia observada en las clasificaciones. Una revisión detallada permitirá identificar y corregir posibles deficiencias en los datos y mejorar la precisión de la clasificación de malos pagadores.
 
