@@ -22,7 +22,9 @@ El proyecto nos pide validar las siguientes hipotesis
   2. [**Análisis Exploratorio de Datos**](https://github.com/Maria-Data-Analyst/riesgo_relativo/blob/Consultas-Query/Ficha_tecnica/AED.md)
      
   3.  [**Técnica de análisis**](https://github.com/Maria-Data-Analyst/riesgo_relativo/blob/Consultas-Query/Ficha_tecnica/tecnica_analisis.md)
-    
+
+
+
      
 </details>
 
@@ -47,7 +49,7 @@ El proyecto nos pide validar las siguientes hipotesis
      
 </details>
 
-
+[**Presentación**](https://docs.google.com/presentation/d/1cDMneL7eKBrhgwDIdBpOPCKwlxaE3G1_UiqOo-2WpOc/edit?usp=sharing)
 
 
 ### Herramientas y Lenguajes 
