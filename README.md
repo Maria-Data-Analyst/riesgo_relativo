@@ -49,8 +49,9 @@ El proyecto nos pide validar las siguientes hipotesis
      
 </details>
 
-[**Presentación**](https://docs.google.com/presentation/d/1cDMneL7eKBrhgwDIdBpOPCKwlxaE3G1_UiqOo-2WpOc/edit?usp=sharing)
-
+* [**Presentación**](https://docs.google.com/presentation/d/1cDMneL7eKBrhgwDIdBpOPCKwlxaE3G1_UiqOo-2WpOc/edit?usp=sharing)
+  
+* [**Dashboard**](https://lookerstudio.google.com/reporting/de0d90e8-c84e-4ac2-a808-8323ede69367)
 
 ### Herramientas y Lenguajes 
 - BigQuery
