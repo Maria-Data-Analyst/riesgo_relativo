@@ -51,7 +51,7 @@ El proyecto nos pide validar las siguientes hipotesis
 
 * [**Presentación**](https://docs.google.com/presentation/d/1cDMneL7eKBrhgwDIdBpOPCKwlxaE3G1_UiqOo-2WpOc/edit?usp=sharing)
   
-* [**Dashboard**](https://lookerstudio.google.com/reporting/de0d90e8-c84e-4ac2-a808-8323ede69367)
+* [**Dashboard**](https://github.com/Maria-Data-Analyst/riesgo_relativo/blob/main/dashboard.jpeg)
 
 ### Herramientas y Lenguajes 
 - BigQuery
